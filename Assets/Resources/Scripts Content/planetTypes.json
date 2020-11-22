@@ -1,0 +1,75 @@
+{
+    "planets":
+    [  
+        {
+            "type": "Lava",
+            "description": "Lava planets are unique in composition hot worlds, having huge red-orange lava fields as their defining feature.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },  
+        
+        {
+            "type": "Oceanic",
+            "description": "Oceanic worlds are planets covered entirely or mostly by liquids, usually in the form of mundane water. While the liquid surface is exceptionally smooth, the ocean floor on most worlds of this type exhibits significant topographic variety.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },        
+        
+        {
+            "type": "Temperate",
+            "description": "Temperate worlds are planets that possess mild temperatures and are capable of sustaining simple forms of life as one of their defining features.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },        
+        
+        {
+            "type": "Gas",
+            "description": "Gas planets are characterized by a deep, opaque upper atmosphere. The interaction between upwellings and rapidly circulating pressure bands result in a huge variety of visible surface structures.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },        
+        
+        {
+            "type": "Ice",
+            "description": "Ice planets are previously barren, cold worlds being surfaced with ice over the course of many millennia. Bright, reflective planets scored by countless fractures and crevasses.",
+            "canHaveAtmosphere": false,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },        
+        
+        {
+            "type": "Barren",
+            "description": "Barren planets are archetypical dead planets. Dry, rocky worlds with no atmosphere and dull geological compositions.",
+            "canHaveAtmosphere": false,
+            "canHaveMoons": true,
+            "canSupportLife": false
+        },        
+
+        {
+            "type": "Desert",
+            "description": "Hot, scorched by their mother star planets, being home to small groups of settlers and scavengers due to deficient life supporting material deposits. Homes of vast dunes and occasional oases.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": true
+        },
+        
+        {
+            "type": "Asteroid Field",
+            "description": "Asteroid fields are bands of asteroids of different sizes and compositions, which encircle a star often where a planet would normally have formed.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": false,
+            "canSupportLife": false
+        },        
+        
+        {
+            "type": "Space Junk",
+            "description": "Desolate and forgotten remnants of the past. Space junk clusters are bands of predominantly metal remains of what most of the times are broken space ships.",
+            "canHaveAtmosphere": true,
+            "canHaveMoons": false,
+            "canSupportLife": false
+        }
+    ]
+}

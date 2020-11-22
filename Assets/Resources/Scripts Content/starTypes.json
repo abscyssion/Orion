@@ -1,0 +1,75 @@
+{
+    "stars":
+    [
+        {
+            "type": "White Supergiant",
+            "description": "O-type stars, also reffered to as white supergiants are the most luminous and massive stars in the galaxy. They reach temperatures ranging between 30,000K and 50,000K.",
+            "maxTemperature": 50000,
+            "minTemperature": 30000
+        },
+
+        {
+            "type": "Blue-White Supergiant",
+            "description": "B-type stars, also reffered to as blue-white supergiants are very luminous and blue. They reach temperatures in range between 10,000K and 30,000K.",
+            "maxTemperature": 30000,
+            "minTemperature": 10000
+        },
+
+        {
+            "type": "Blue Giant",
+            "description": "A-type stars, also reffered to as blue giants are young, white or bluish-white stars. They reach temeperatures ranging between 7600K and 10,000K.",
+            "maxTemperature": 10000,
+            "minTemperature": 7600
+        },
+
+        {
+            "type": "Yellow-White Dwarf",
+            "description": "F-type stars, also reffered to as yellow-white dwarfs are hydrogen-fusing stars with temperatures ranging between 6000K and 7600K.",
+            "maxTemperature": 7600,
+            "minTemperature": 6000
+        },
+
+        {
+            "type": "Yellow Dwarf",
+            "description": "G-type stars, also reffered to as yellow dwarfs are hydrogen-fusing stars with temperatures ranging between 5300K and 6000K.",
+            "maxTemperature": 6000,
+            "minTemperature": 5300
+        },
+
+        {
+            "type": "Orange Dwarf",
+            "description": "K-type stars, also reffered to as orange dwarfs are hydrogen-fusing stars with temperatures ranging beteween 3500K and 5300K.",
+            "maxTemperature": 5300,
+            "minTemperature": 3500
+        },
+
+        {
+            "type": "Carbon Star",
+            "description": "C-type stars, also reffered to as carbon stars, are stars whose atmospheres contain more carbon than oxygen, giving the star a sooty atmosphere and a strikingly ruby red appearance. They reach temperatures between 2500K and 3500K.",
+            "maxTemperature": 3500,
+            "minTemperature": 3500
+        },
+
+        {
+            "type": "Red Dwarf",
+            "description": "M-type stars, also reffered to as red dwarfs are the smallest and coolest kinds of stars in the main sequence. They reach temperatures between 2000K and 2500K.",
+            "maxTemperature": 2500,
+            "minTemperature": 2500
+        },
+
+        {
+            "type": "Brown Dwarf",
+            "description": "L-type stars, also reffered to as brown dwarfs, are small, very dark red in color stars. They reach temperatures between only 500K and 700K.",
+            "maxTemperature": 700,
+            "minTemperature": 700
+        },
+
+        {
+            "type": "Neutron Star",
+            "description": "Neutron stars are the stellar remnants of massive stars that have reached the end of their lives. Once nuclear fusion was exhausted, the star collapsed into a tiny volume, and thus created a neutron star.",
+            "maxTemperature": 1000000,
+            "minTemperature": 600000
+        }
+    
+    ]
+}
