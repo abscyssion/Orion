@@ -13,7 +13,7 @@ public class StarVisScreen : MonoBehaviour
         public Sprite sprite;
         public Vector2 size;
         public Vector2 pos;
-        public bool orbiting; //no = asteroid field, gas cloud
+        public bool orbital; //no = asteroid field, gas cloud
     }
     
     private World world;
@@ -25,16 +25,11 @@ public class StarVisScreen : MonoBehaviour
     public Transform systemParent;
 
     public Sprite starSprite;
-    public Sprite[] planetSprites;
-
-    public Color[] starColors;
-    public Vector2[] starSizes;
-
-    public Color[] planetColors;
-    public Vector2[] planetSizes;
+    public Sprite planetSprite;
+    public Sprite fieldSprite;
 
     private VisImage star;
-    private VisImage[] planets;
+    private List <VisImage> planets;
     private bool orbiting = false;
 
     private void Awake()
@@ -67,28 +62,33 @@ public class StarVisScreen : MonoBehaviour
         Vector2 canvasDiam = canvasRect.sizeDelta;
 
         star = new VisImage();
-        planets = new VisImage[sys.planets.Count];
+        planets = new List<VisImage>();
 
         #region Init
         //Star
         star.name = sys.star.name;
-        star.color = starColors[sys.star.id];
+        star.color = sys.star.visualisationColor;
         star.sprite = starSprite;
-        star.size = starSizes[sys.star.id];
+        star.size = sys.star.visualisationSize;
 
         //Planets
-        for(int i = 0; i <= sys.planets.Count - 1; i++)
+        foreach(Planet planet in sys.planets)
         {
-            int id = sys.planets[i].id;
-            VisImage planet = new VisImage
+            Sprite sprite;
+            if (!planet.field)
+                sprite = planetSprite;
+            else
+                sprite = fieldSprite;
+
+            VisImage planetVis = new VisImage
             {
-                name = sys.planets[i].name,
-                color = planetColors[id],
-                sprite = planetSprites[id],
-                size = planetSizes[id]
+                name = planet.name,
+                color = planet.visualisationColor,
+                sprite = sprite,
+                size = planet.visualisationSize
             };
 
-            planets[i] = planet;
+            planets.Add(planetVis);
         }
         #endregion
 
@@ -104,10 +104,10 @@ public class StarVisScreen : MonoBehaviour
 
         float planetsTotalSpace = canvasTotal - planetsTotalWidth;
 
-        float planetsSpace = planetsTotalSpace / planets.Length;
+        float planetsSpace = planetsTotalSpace / planets.Count;
 
 
-        for(int i = 0; i <= planets.Length - 1; i++)
+        for(int i = 0; i <= planets.Count - 1; i++)
         {
             float visX = ((planets[i].size.x + planetsSpace) * i) + starPadding;
 

@@ -20,3 +20,5 @@ MonoBehaviour:
   minTemperature: 10000
   temperature: 0
   sprite: {fileID: 21300000, guid: c6c16d9489bb0364688e7550e3d67f89, type: 3}
+  visualisationSize: {x: 140, y: 140}
+  visualisationColor: {r: 0.58431375, g: 0.8039216, b: 0.8666667, a: 1}

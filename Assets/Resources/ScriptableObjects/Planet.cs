@@ -13,4 +13,8 @@ public class Planet : ScriptableObject
     public bool canHaveAtmosphere;
     public bool canHaveMoons;
     public bool canSupportLife;
+    public bool field; //Eg. asteroid field, gas cloud.
+
+    public Vector2 visualisationSize;
+    public Color visualisationColor;
 }

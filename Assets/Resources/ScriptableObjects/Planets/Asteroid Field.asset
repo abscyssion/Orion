@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580ce2240340a7a45bc9f71cba2a5338, type: 3}
   m_Name: Asteroid Field
   m_EditorClassIdentifier: 
+  id: 0
   type: Asteroid Field
   description: Asteroid fields are bands of asteroids of different sizes and compositions,
     which encircle a star often where a planet would normally have formed.
   canHaveAtmosphere: 0
   canHaveMoons: 0
   canSupportLife: 0
+  field: 1
+  visualisationSize: {x: 25, y: 25}
+  visualisationColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}

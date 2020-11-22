@@ -15,4 +15,7 @@ public class Star : ScriptableObject
     public int temperature;
 
     public Sprite sprite;
+
+    public Vector2 visualisationSize;
+    public Color visualisationColor;
 }

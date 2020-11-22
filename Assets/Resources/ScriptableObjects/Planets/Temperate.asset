@@ -19,3 +19,6 @@ MonoBehaviour:
   canHaveAtmosphere: 1
   canHaveMoons: 1
   canSupportLife: 1
+  field: 0
+  visualisationSize: {x: 8, y: 8}
+  visualisationColor: {r: 0.05490196, g: 0.65882355, b: 0.1764706, a: 1}
