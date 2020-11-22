@@ -9,11 +9,12 @@ public class StarVisScreen : MonoBehaviour
     {
         public RectTransform rect;
         public string name;
+        public int id;
         public Color color;
         public Sprite sprite;
-        public Vector2 size;
-        public Vector2 pos;
-        public bool orbital; //no = asteroid field, gas cloud
+        public float size; 
+        public float posX; public float virtPosX;
+        public bool field;
     }
     
     private World world;
@@ -46,11 +47,11 @@ public class StarVisScreen : MonoBehaviour
         {
             foreach (VisImage sattelite in planets)
             {
-                float orbitSpeed = baseOrbitSpeed / sattelite.pos.x;
-
-                //Debug.Log("[" + sattelite.name + "]: " + orbitSpeed);
-
-                sattelite.rect.RotateAround(star.rect.position, Vector3.right, Time.deltaTime * orbitSpeed);
+                if (!sattelite.field)
+                {
+                    float orbitSpeed = baseOrbitSpeed / sattelite.posX;
+                    sattelite.rect.RotateAround(star.rect.position, Vector3.right, Time.deltaTime * orbitSpeed);
+                }
             }
         }
 
@@ -66,10 +67,13 @@ public class StarVisScreen : MonoBehaviour
 
         #region Init
         //Star
-        star.name = sys.star.name;
-        star.color = sys.star.visualisationColor;
+        Star starObj = sys.star;
+
+        star.name = starObj.name;
+        star.id = starObj.id;
+        star.color = starObj.visualisationColor;
         star.sprite = starSprite;
-        star.size = sys.star.visualisationSize;
+        star.size = starObj.visSize;
 
         //Planets
         foreach(Planet planet in sys.planets)
@@ -83,9 +87,10 @@ public class StarVisScreen : MonoBehaviour
             VisImage planetVis = new VisImage
             {
                 name = planet.name,
+                id = planet.id,
                 color = planet.visualisationColor,
                 sprite = sprite,
-                size = planet.visualisationSize
+                field = planet.field
             };
 
             planets.Add(planetVis);
@@ -93,14 +98,14 @@ public class StarVisScreen : MonoBehaviour
         #endregion
 
         #region Positions
-        float starPadding = (star.size.x / 2) * 1.5f;
+        float paddingFromStar = (star.size / 2) * 1.5f;
 
-        star.pos = new Vector2 { x = 0, y = 0 };
+        star.posX = 0;
 
         float planetsTotalWidth = 0;
         foreach (VisImage planet in planets)
-            planetsTotalWidth += planet.size.x;
-        float canvasTotal = (canvasDiam.x / 2) - starPadding;
+            planetsTotalWidth += planet.size;
+        float canvasTotal = (canvasDiam.x / 2) - paddingFromStar;
 
         float planetsTotalSpace = canvasTotal - planetsTotalWidth;
 
@@ -109,18 +114,36 @@ public class StarVisScreen : MonoBehaviour
 
         for(int i = 0; i <= planets.Count - 1; i++)
         {
-            float visX = ((planets[i].size.x + planetsSpace) * i) + starPadding;
+            VisImage planet = planets[i];
+
+            float visX = ((planet.size + planetsSpace) * i) + paddingFromStar;
+            planet.virtPosX = visX;
 
             if (visX > canvasDiam.x / 2)
-                visX = (canvasDiam.x / 2) - planets[i].size.x;
+                visX = (canvasDiam.x / 2) - planet.size;
 
-            planets[i].pos = new Vector2
-            {
-                x = visX,
-                y = 0
-            };
+            if (!planet.field)
+                planet.posX = visX;
+            else
+                planet.posX = 0;
+
+
+            Debug.Log("[" + planet.name + "]: " + planet.posX);
         }
 
+        #endregion
+
+        #region Sizes
+        for(int i = 0; i <= planets.Count - 1; i++)
+        {
+            VisImage planetVis = planets[i];
+            Planet planet = world.planetsAll[planetVis.id];
+
+            if (!planetVis.field)
+                planetVis.size = planet.visSize;
+            else
+                planetVis.size = planetVis.virtPosX * 2;
+        }
         #endregion
 
         #region Render
@@ -138,7 +161,7 @@ public class StarVisScreen : MonoBehaviour
         orbiting = true;
     }
 
-    void DrawVisualisation(VisImage vis)
+    private void DrawVisualisation(VisImage vis)
     {
         GameObject visObj = new GameObject();
         visObj.transform.SetParent(systemParent);
@@ -152,8 +175,8 @@ public class StarVisScreen : MonoBehaviour
         visRect.anchorMax = new Vector2 { x = 0.5f, y = 0.5f };
         visRect.pivot = new Vector2 { x = 0.5f, y = 0.5f };
 
-        visRect.sizeDelta = vis.size;
-        visRect.anchoredPosition = vis.pos;
+        visRect.sizeDelta = new Vector2 { x = vis.size, y = vis.size};
+        visRect.anchoredPosition = new Vector2 { x = vis.posX, y = 0 };
         vis.rect = visRect;
 
         visObj.AddComponent<CanvasRenderer>();

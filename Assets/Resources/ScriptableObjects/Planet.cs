@@ -15,6 +15,6 @@ public class Planet : ScriptableObject
     public bool canSupportLife;
     public bool field; //Eg. asteroid field, gas cloud.
 
-    public Vector2 visualisationSize;
+    public int visSize;
     public Color visualisationColor;
 }

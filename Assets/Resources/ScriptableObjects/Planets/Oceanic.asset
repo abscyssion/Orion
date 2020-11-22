@@ -22,5 +22,5 @@ MonoBehaviour:
   canHaveMoons: 1
   canSupportLife: 1
   field: 0
-  visualisationSize: {x: 9, y: 9}
+  visSize: 9
   visualisationColor: {r: 0.015686275, g: 0.16862746, b: 0.7058824, a: 1}

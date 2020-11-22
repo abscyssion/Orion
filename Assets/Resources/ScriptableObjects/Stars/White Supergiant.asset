@@ -19,7 +19,7 @@ MonoBehaviour:
     and 50,000K.
   maxTemperature: 50000
   minTemperature: 30000
-  temperature: 0
+  temperature: 33395
   sprite: {fileID: 21300000, guid: 23c46874ef949394e854a6b23770ca5b, type: 3}
-  visualisationSize: {x: 150, y: 150}
+  visSize: 150
   visualisationColor: {r: 0.8627451, g: 0.9137255, b: 0.9254902, a: 1}

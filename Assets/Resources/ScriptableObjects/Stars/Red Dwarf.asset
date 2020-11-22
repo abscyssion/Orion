@@ -19,7 +19,7 @@ MonoBehaviour:
     2000K and 2500K.
   maxTemperature: 2500
   minTemperature: 2500
-  temperature: 0
+  temperature: 2500
   sprite: {fileID: 21300000, guid: 9e8334cde0202ac49b86ba0d0206f9a0, type: 3}
-  visualisationSize: {x: 90, y: 90}
+  visSize: 90
   visualisationColor: {r: 0.9150943, g: 0.14839831, b: 0.02158241, a: 1}

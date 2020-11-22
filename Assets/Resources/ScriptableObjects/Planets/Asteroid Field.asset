@@ -20,5 +20,5 @@ MonoBehaviour:
   canHaveMoons: 0
   canSupportLife: 0
   field: 1
-  visualisationSize: {x: 25, y: 25}
-  visualisationColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
+  visSize: 0
+  visualisationColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.15686275}
