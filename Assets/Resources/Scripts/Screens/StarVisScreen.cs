@@ -13,6 +13,7 @@ public class StarVisScreen : MonoBehaviour
         public Sprite sprite;
         public Vector2 size;
         public Vector2 pos;
+        public bool orbiting; //no = asteroid field, gas cloud
     }
     
     private World world;
@@ -40,7 +41,7 @@ public class StarVisScreen : MonoBehaviour
     {
         world = GameObject.Find("Logic").GetComponent<World>();
 
-        DrawVisualisation(World.GetSystem());
+        DrawVisualisations(World.GetSystem());
     }
 
     const float baseOrbitSpeed = 800; 
@@ -61,7 +62,7 @@ public class StarVisScreen : MonoBehaviour
         
     }
 
-    private void DrawVisualisation(World.Sys sys)
+    private void DrawVisualisations(World.Sys sys)
     {
         Vector2 canvasDiam = canvasRect.sizeDelta;
 
@@ -123,11 +124,11 @@ public class StarVisScreen : MonoBehaviour
         #endregion
 
         #region Render
-        CreateVisualisation(star);
+        DrawVisualisation(star);
 
         foreach (VisImage planet in planets)
         {
-            CreateVisualisation(planet);
+            DrawVisualisation(planet);
 
             //Set a random orbit point
             planet.rect.RotateAround(star.rect.position, Vector3.right, Random.Range(0, 360));
@@ -137,7 +138,7 @@ public class StarVisScreen : MonoBehaviour
         orbiting = true;
     }
 
-    void CreateVisualisation(VisImage vis)
+    void DrawVisualisation(VisImage vis)
     {
         GameObject visObj = new GameObject();
         visObj.transform.SetParent(systemParent);
