@@ -26,6 +26,7 @@ public class StarScanScreen : Screen
         private Color buttonColDef;
         [SerializeField] private Color buttonColHover;
         [SerializeField] private Color buttonColPress;
+        [SerializeField] private Color buttonColWrong;
     public GameObject buttonBackground;
         private Image buttonBgImg;
             [SerializeField] private Color buttonBgColMin;
@@ -33,7 +34,9 @@ public class StarScanScreen : Screen
         private RectTransform buttonBgRect;
             [SerializeField] private float buttonBgWidthMax = 0;
     public TextMeshProUGUI buttonText;
-    
+
+    private StarVisScreen starVisScreen;
+
     public bool systemScanned { get; private set; }
     private bool systemScanning;
 
@@ -46,6 +49,8 @@ public class StarScanScreen : Screen
         buttonBgRect = buttonBackground.GetComponent<RectTransform>();
 
         buttonColDef = buttonBgContainerImg.color;
+
+        starVisScreen = GameObject.Find("Star Visualisation Screen").GetComponent<StarVisScreen>();
     }
 
     private void Update()
@@ -61,7 +66,10 @@ public class StarScanScreen : Screen
                     if(Input.GetMouseButtonDown(0))
                     {
                         StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColPress, buttonColDef));
-                        Scan();
+
+                        if (!Scan())
+                            StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColWrong, buttonColDef));
+
                     }
                 }
             }
@@ -72,10 +80,15 @@ public class StarScanScreen : Screen
         }
     }
 
-    private void Scan()
+    private bool Scan()
     {
-        if(!systemScanned && !systemScanning)
+        if (!systemScanned && !systemScanning && !JumpHandler.jumping)
+        {
             StartCoroutine(Scanning(Ship.scannerEff));
+            return true;
+        }
+        else
+            return false;
     }
     private IEnumerator Scanning(float time)
     {
@@ -99,17 +112,20 @@ public class StarScanScreen : Screen
             yield return new WaitForSeconds(0.01f);
         }
 
+        starVisScreen.DrawVisualisations(World.GetSystem());
+        starVisScreen.ChangeScreen(true);   
+
         Star currStar = World.GetSystem().star;
 
         topContainer.SetActive(true);
         topOutline.enabled = false;
 
         Write(currStar.type, typeText);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.1f);
         Write(currStar.temperature + "K", tempText);
-        yield return new WaitForSeconds(1f);
-        Write(currStar.type, descTypeText);
         yield return new WaitForSeconds(0.8f);
+        Write(currStar.type, descTypeText);
+        yield return new WaitForSeconds(0.6f);
         Write(currStar.description, descText);
 
         systemScanned = true;
@@ -124,7 +140,7 @@ public class StarScanScreen : Screen
 
     private IEnumerator Writing(string text, TextMeshProUGUI tmp)
     {
-        const float delay = 0.06f;
+        const float delay = 0.05f;
 
         string textOut = "";
         for(int i = 0; i <= text.Length-1; i++)
@@ -135,7 +151,7 @@ public class StarScanScreen : Screen
         }
     }
 
-    private void ResetScanner()
+    public void ResetScanner()
     {
         systemScanned = false;
 
@@ -143,8 +159,16 @@ public class StarScanScreen : Screen
         buttonBgImg.color = buttonBgColMin;
         buttonBgRect.sizeDelta = new Vector2(0, 0);
 
+        typeText.text = "";
+        tempText.text = "";
+        descTypeText.text = "";
+        descText.text = "";
+
         topContainer.SetActive(false);
         topOutline.enabled = true;
+
+        starVisScreen.DestroyVisualisations();
+        starVisScreen.ChangeScreen(false);
     }
 
     bool buttonChColor;

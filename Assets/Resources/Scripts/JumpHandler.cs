@@ -90,6 +90,8 @@ public class JumpHandler : MonoBehaviour
     public Animator shipAnim;
     public Image shipSpinImage;
 
+    private StarScanScreen starScanScreen;
+
     private float maxMuzzScale = 2;
     private float minMuzzScale;
 
@@ -116,6 +118,8 @@ public class JumpHandler : MonoBehaviour
         }
 
         warpParticles.gameObject.SetActive(false);   
+
+        starScanScreen = GameObject.Find("Star Scan Screen").GetComponent<StarScanScreen>();
     }
 
     public static void SetFlight(World.Sys sys)
@@ -137,6 +141,8 @@ public class JumpHandler : MonoBehaviour
                 StartCoroutine(Jumping());
 
                 SetText(false, currFlight.destSys.name);
+
+                starScanScreen.ResetScanner();
 
                 return true;
             }

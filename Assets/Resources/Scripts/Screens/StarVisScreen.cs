@@ -31,19 +31,17 @@ public class StarVisScreen : MonoBehaviour
 
     private VisImage star;
     private List <VisImage> planets;
-    private bool orbiting = false;
+    private bool displaying = false;
 
     private void Awake()
     {
         world = GameObject.Find("Logic").GetComponent<World>();
-
-        DrawVisualisations(World.GetSystem());
     }
 
     const float baseOrbitSpeed = 800; 
     private void Update()
     {
-        if (orbiting)
+        if (displaying)
         {
             foreach (VisImage sattelite in planets)
             {
@@ -54,11 +52,18 @@ public class StarVisScreen : MonoBehaviour
                 }
             }
         }
-
-        
     }
 
-    private void DrawVisualisations(World.Sys sys)
+    public void DestroyVisualisations()
+    {
+        displaying = false;
+
+        foreach (Transform child in systemParent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+    public void DrawVisualisations(World.Sys sys)
     {
         Vector2 canvasDiam = canvasRect.sizeDelta;
 
@@ -126,9 +131,6 @@ public class StarVisScreen : MonoBehaviour
                 planet.posX = visX;
             else
                 planet.posX = 0;
-
-
-            Debug.Log("[" + planet.name + "]: " + planet.posX);
         }
 
         #endregion
@@ -158,7 +160,7 @@ public class StarVisScreen : MonoBehaviour
         }
         #endregion
 
-        orbiting = true;
+        displaying = true;
     }
 
     private void DrawVisualisation(VisImage vis)
@@ -185,21 +187,9 @@ public class StarVisScreen : MonoBehaviour
         visImg.color = vis.color;
     }
 
-
-    bool visScr = false;
-    public void ChangeScreen()
+    public void ChangeScreen(bool mainActive)
     {
-        if(!visScr)
-        {
-            mainScreen.SetActive(true);
-            infoScreen.SetActive(false);
-        }
-        else
-        {
-            mainScreen.SetActive(false);
-            infoScreen.SetActive(true);
-        }
-
-        visScr = !visScr;
+        mainScreen.SetActive(mainActive);
+        infoScreen.SetActive(!mainActive);
     }
 }
