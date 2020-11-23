@@ -113,7 +113,7 @@ public class StarScanScreen : Screen
         }
 
         starVisScreen.DrawVisualisations(World.GetSystem());
-        starVisScreen.ChangeScreen(true);   
+        starVisScreen.ChangeScreen();   
 
         Star currStar = World.GetSystem().star;
 
@@ -168,7 +168,7 @@ public class StarScanScreen : Screen
         topOutline.enabled = true;
 
         starVisScreen.DestroyVisualisations();
-        starVisScreen.ChangeScreen(false);
+        starVisScreen.ChangeScreen();
     }
 
     bool buttonChColor;

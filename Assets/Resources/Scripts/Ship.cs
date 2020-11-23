@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     public static float acceleration { get; private set; } //ly per second ^2
     public static float topSpeed { get; private set; } //ly per second
 
-    public static float scannerEff = 5f;//5.0f; //scan time for star; 3/1 scan time for planet
+    public static float scannerEff = 1f;//5.0f; //scan time for star; 3/1 scan time for planet
 
     private void Awake()
     {

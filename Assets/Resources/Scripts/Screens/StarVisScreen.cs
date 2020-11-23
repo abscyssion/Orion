@@ -29,6 +29,8 @@ public class StarVisScreen : MonoBehaviour
     public Sprite planetSprite;
     public Sprite fieldSprite;
 
+    private List<Image> imagesAll;
+
     private VisImage star;
     private List <VisImage> planets;
     private bool displaying = false;
@@ -36,6 +38,8 @@ public class StarVisScreen : MonoBehaviour
     private void Awake()
     {
         world = GameObject.Find("Logic").GetComponent<World>();
+
+        imagesAll = new List<Image>();
     }
 
     const float baseOrbitSpeed = 800; 
@@ -185,11 +189,50 @@ public class StarVisScreen : MonoBehaviour
         Image visImg = visObj.AddComponent<Image>();
         visImg.sprite = vis.sprite;
         visImg.color = vis.color;
+
+        imagesAll.Add(visImg);
     }
 
-    public void ChangeScreen(bool mainActive)
+
+    bool mainActive = false;
+    public void ChangeScreen()
     {
-        mainScreen.SetActive(mainActive);
-        infoScreen.SetActive(!mainActive);
+        mainScreen.SetActive(!mainActive);
+        infoScreen.SetActive(mainActive);
+
+        if (!mainActive)
+            StartCoroutine(FadeInVis());
+
+        mainActive = !mainActive;
+    }
+
+    private IEnumerator FadeInVis()
+    {
+        List<Color> colorsBefore = new List<Color>();
+        List<Color> colorsAfter = new List<Color>();
+
+        foreach(Image image in imagesAll)
+        {
+            Color colorBefore = image.color;
+            colorsBefore.Add(colorBefore);
+
+            Color colorAfter = colorBefore; colorAfter.a = 0;
+            colorsAfter.Add(colorAfter);
+
+            image.color = colorAfter;
+        }
+
+        const float delay = 0.05f;
+        float percent = 0.0f;
+        while(percent < 1.0f)
+        {
+            for(int i = 0; i <= imagesAll.Count - 1; i++)
+            {
+                imagesAll[i].color = Color.Lerp(colorsAfter[i], colorsBefore[i],  percent);
+            }
+
+            percent += 0.05f;
+            yield return new WaitForSeconds(delay);
+        }
     }
 }
