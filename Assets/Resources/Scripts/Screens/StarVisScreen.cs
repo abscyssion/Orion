@@ -28,6 +28,7 @@ public class StarVisScreen : MonoBehaviour
     public Sprite starSprite;
     public Sprite planetSprite;
     public Sprite fieldSprite;
+    public Sprite orbitSprite;
 
     private List<Image> imagesAll;
 
@@ -40,6 +41,9 @@ public class StarVisScreen : MonoBehaviour
         world = GameObject.Find("Logic").GetComponent<World>();
 
         imagesAll = new List<Image>();
+
+/*        DrawVisualisations(World.GetSystem());
+        ChangeScreen();*/
     }
 
     const float baseOrbitSpeed = 800; 
@@ -125,16 +129,18 @@ public class StarVisScreen : MonoBehaviour
         {
             VisImage planet = planets[i];
 
-            float visX = ((planet.size + planetsSpace) * i) + paddingFromStar;
-            planet.virtPosX = visX;
+            float virtPosX = ((planet.size + planetsSpace) * i) + paddingFromStar;
+            planet.virtPosX = virtPosX;
 
-            if (visX > canvasDiam.x / 2)
-                visX = (canvasDiam.x / 2) - planet.size;
+            if (virtPosX > canvasDiam.x / 2)
+                virtPosX = (canvasDiam.x / 2) - planet.size;
 
             if (!planet.field)
-                planet.posX = visX;
+                planet.posX = virtPosX;
             else
                 planet.posX = 0;
+
+            Debug.Log(i + ": " + virtPosX);
         }
 
         #endregion
@@ -158,6 +164,9 @@ public class StarVisScreen : MonoBehaviour
         foreach (VisImage planet in planets)
         {
             DrawVisualisation(planet);
+           
+            if(!planet.field)
+                DrawOrbit(planet);
 
             //Set a random orbit point
             planet.rect.RotateAround(star.rect.position, Vector3.right, Random.Range(0, 360));
@@ -191,6 +200,49 @@ public class StarVisScreen : MonoBehaviour
         visImg.color = vis.color;
 
         imagesAll.Add(visImg);
+    }
+
+    private void DrawOrbit(VisImage vis)
+    {
+        float virtPosX = vis.virtPosX;
+        string name = vis.name + "'s Orbit";
+
+        float correction = 1.05f;
+
+        Vector2 size = new Vector2
+        {
+            x = virtPosX * 2 * correction,
+            y = virtPosX * 2 * correction,
+        };
+
+        GameObject orbObj = new GameObject();
+        orbObj.transform.SetParent(systemParent);
+        orbObj.transform.name = name;
+
+        RectTransform orbRect = orbObj.AddComponent<RectTransform>();
+        orbRect.localScale = new Vector3(1, 1, 1);
+        orbRect.localPosition = new Vector3(0, 0, 0);
+        orbRect.localEulerAngles = new Vector3(0, 0, 0);
+        orbRect.anchorMin = new Vector2 { x = 0.5f, y = 0.5f };
+        orbRect.anchorMax = new Vector2 { x = 0.5f, y = 0.5f };
+        orbRect.pivot = new Vector2 { x = 0.5f, y = 0.5f };
+
+        orbRect.sizeDelta = size;
+
+        orbRect.anchoredPosition = new Vector2
+        {
+            x = 0,
+            y = 0
+        };
+
+        float orbitDarkenBy = 0.15f; float orbitAlpha = 0.25f;
+        Color orbColor = vis.color - new Color(orbitDarkenBy, orbitDarkenBy, orbitDarkenBy);
+        orbColor.a = orbitAlpha;
+
+        Debug.Log(orbColor);
+        Image orbImg = orbObj.AddComponent<Image>();
+        orbImg.sprite = orbitSprite;
+        orbImg.color = orbColor;
     }
 
 

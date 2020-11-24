@@ -22,9 +22,7 @@ public class Flight
 
         timeTotal = timeAcc * 2 + timeCru;
 
-       // Debug.Log("acc: " + timeAcc + ", cru: " + timeCru + ", total: " + timeTotal);
-
-        fuel = Ship.fuelEfficency / distance;
+        fuel = Ship.fuelEfficency * distance;
 
         if (fuel <= Ship.fuel)
             possible = true;

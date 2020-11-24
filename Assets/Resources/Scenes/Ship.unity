@@ -8492,6 +8492,7 @@ MonoBehaviour:
   starSprite: {fileID: 21300000, guid: bae628f8244b11440ad977d60272f50c, type: 3}
   planetSprite: {fileID: 21300000, guid: a68b3253c56be6c4fa07ea23ac89a0e2, type: 3}
   fieldSprite: {fileID: 21300000, guid: f5e773b76c9e63a4ab42ffeda560eade, type: 3}
+  orbitSprite: {fileID: 21300000, guid: f5e773b76c9e63a4ab42ffeda560eade, type: 3}
 --- !u!1 &982999435
 GameObject:
   m_ObjectHideFlags: 0
