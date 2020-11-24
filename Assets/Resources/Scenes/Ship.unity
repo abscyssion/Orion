@@ -3641,8 +3641,12 @@ MonoBehaviour:
   shipCursor: {fileID: 2033274784}
   shipAnim: {fileID: 2033274785}
   shipSpinImage: {fileID: 41386138}
+  starScanScreen: {fileID: 0}
+  maxMuzzScale: 2
+  minMuzzScale: 0
   warpParticles: {fileID: 1668390674}
   maxParticleSpeed: 400
+  minParticleSpeed: 0
 --- !u!114 &444875758
 MonoBehaviour:
   m_ObjectHideFlags: 0

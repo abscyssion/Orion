@@ -6,67 +6,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Flight
+public class SystemFlight : Flight
 {
-    public Flight(World.Sys sys) //Constructor
+    public SystemFlight(World.Sys sys, float distance) : base(distance) //Constructor
     {
         destSys = sys;
-
-        Vector2 distVec = sys.GlobalPos() - World.GetSystem().GlobalPos();
-        distance = Mathf.Abs(distVec.x) + Mathf.Abs(distVec.y);
-
-        timeAcc = Ship.topSpeed / Ship.acceleration;
-        float accDist = Ship.topSpeed / 2 / timeAcc;
-
-        timeCru = (distance - accDist * 2) / Ship.topSpeed;
-
-        timeTotal = timeAcc * 2 + timeCru;
-
-        fuel = Ship.fuelEfficency * distance;
-
-        if (fuel <= Ship.fuel)
-            possible = true;
-        else
-            possible = false;
     }
 
     public World.Sys destSys { get; }
-    public float distance { get; }
-    public float timeAcc { get; }
-    public float timeCru { get; }
-    public float timeTotal { get; } //In seconds.
-    public float fuel { get; }
-    public bool possible { get; }
-
-    #region Flight Details (Strings)
-    public struct FlightDetails
-    {
-        public FlightDetails(float distanceF, float timeF, float fuelF)
-        {
-            distance = Mathf.Round(distanceF).ToString();
-
-            int minutes = (int)timeF / 60;
-            int seconds = (int)timeF % 60;
-            if (minutes > 0)
-                time = minutes + " min " + seconds + "s";
-            else
-                time = seconds + "s";
-
-            fuel = Mathf.Round(fuelF).ToString();
-        }
-
-        public string distance { get; private set; }
-        public string time { get; private set; }
-        public string fuel { get; private set; }
-    }
-
-    public FlightDetails GetFlightDetails()
-    {
-        FlightDetails flightDetails = new FlightDetails(distance, timeTotal, fuel);
-
-        return flightDetails;
-    }
-    #endregion
 }
 
 public class JumpHandler : MonoBehaviour
@@ -76,7 +23,7 @@ public class JumpHandler : MonoBehaviour
 
     public JumpScreen jumpScreen;
 
-    public static Flight currFlight;
+    public static SystemFlight currFlight;
 
     public static bool jumping = false;
 
@@ -120,9 +67,15 @@ public class JumpHandler : MonoBehaviour
         starScanScreen = GameObject.Find("Star Scan Screen").GetComponent<StarScanScreen>();
     }
 
+
     public static void SetFlight(World.Sys sys)
     {
-        currFlight = new Flight(sys);
+
+        Vector2 distVec = sys.GlobalPos() - World.GetSystem().GlobalPos();
+        float distance = Mathf.Abs(distVec.x) + Mathf.Abs(distVec.y);
+
+
+        currFlight = new SystemFlight(sys, distance);
     }
 
     public bool Jump()

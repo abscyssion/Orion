@@ -31,7 +31,7 @@ public class World : MonoBehaviour
         public Vector2Int cellCoords;
 
         public Star star;
-        public List<Planet> planets;
+        public List<PlanetObj> planets;
 
     
         public Vector2 GlobalPos()
@@ -60,6 +60,24 @@ public class World : MonoBehaviour
         }
     }
 
+    public class PlanetObj : Planet
+    {
+        PlanetObj() { }
+
+        public PlanetObj(Planet planet)
+        {
+            type = planet.type;
+            description = planet.description;
+            canHaveAtmosphere = planet.canHaveAtmosphere;
+            canHaveMoons = planet.canHaveMoons;
+            canSupportLife = planet.canSupportLife;
+            field = planet.field;
+        }
+
+        public float orbit;
+        //moons
+    }
+
     void Awake()
     {
         systems = new Sys[mapSize.x, mapSize.y];
@@ -71,7 +89,7 @@ public class World : MonoBehaviour
         string[,] systemNames = new string[mapSize.x, mapSize.y];
         float[,] systemSecs = new float[mapSize.x, mapSize.y];
         Star[,] systemStars = new Star[mapSize.x, mapSize.y];
-        List<Planet>[,] systemPlanets = new List<Planet>[mapSize.x, mapSize.y]; //Array of lists.
+        List<PlanetObj>[,] systemPlanets = new List<PlanetObj>[mapSize.x, mapSize.y]; //Array of lists.
         Vector2[,] systemCoords = new Vector2[mapSize.x, mapSize.y];
 
         //Get system names from a file.
@@ -168,18 +186,29 @@ public class World : MonoBehaviour
         #region Planets
         int planetsCount = Random.Range(minPlanets, maxPlanets);
 
+        const float randMinOrbit = 0.2f; const float randMaxOrbit = 2f; //in AU
+
+
+        float orbitSum = 0.5f;
         for (int x = 0; x <= mapSize.x - 1; x++)
         {
             for (int y = 0; y <= mapSize.y - 1; y++)
             {
-                List <Planet> planetList = new List<Planet>();
+                List <PlanetObj> planetList = new List<PlanetObj>();
+                List<float> orbits = new List<float>();
 
-                for(int i = 0; i <= planetsCount - 1; i++)
+                for (int i = 0; i <= planetsCount - 1; i++)
                 {
                     int randomId = Random.Range(0, planetsAll.Length - 1);
-                    planetList.Add(planetsAll[randomId]);
+
+                    PlanetObj planet = new PlanetObj(planetsAll[randomId]);
+                    orbitSum += Random.Range(randMinOrbit, randMaxOrbit);
+                    planet.orbit = orbitSum;
+
+                    planetList.Add(planet);
                 }
 
+                orbitSum = 0.5f;
                 systemPlanets[x, y] = planetList;
             }
         }

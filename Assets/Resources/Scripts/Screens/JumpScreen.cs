@@ -111,7 +111,7 @@ public class JumpScreen : Screen
 
     public void RefreshScreen()
     {
-        Flight flight = JumpHandler.currFlight;
+        SystemFlight flight = JumpHandler.currFlight;
         World.Sys destSys = flight.destSys;
 
         string systemString = destSys.name;
@@ -127,7 +127,7 @@ public class JumpScreen : Screen
             infoSubScreen.SetActive(true);
             currVisSubScreen.SetActive(false);
 
-            Flight.FlightDetails details = flight.GetFlightDetails();
+            SystemFlight.FlightDetails details = flight.GetFlightDetails();
 
             string distString = details.distance + " light years.";
             distText.SetText(distString);
