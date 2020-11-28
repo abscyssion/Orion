@@ -12,7 +12,6 @@ public class Star : ScriptableObject
 
     public int maxTemperature;
     public int minTemperature;
-    public int temperature;
 
     public Sprite sprite;
 

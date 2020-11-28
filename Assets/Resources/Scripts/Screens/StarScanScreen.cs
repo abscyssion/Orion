@@ -115,7 +115,7 @@ public class StarScanScreen : Screen
         starVisScreen.DrawVisualisations(World.GetSystem());
         starVisScreen.ChangeScreen();   
 
-        Star currStar = World.GetSystem().star;
+        World.StarObj currStar = World.GetSystem().star;
 
         topContainer.SetActive(true);
         topOutline.enabled = false;

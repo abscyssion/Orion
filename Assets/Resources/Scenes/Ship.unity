@@ -3569,6 +3569,7 @@ GameObject:
   - component: {fileID: 444875756}
   - component: {fileID: 444875755}
   - component: {fileID: 444875758}
+  - component: {fileID: 444875759}
   - component: {fileID: 444875757}
   m_Layer: 0
   m_Name: Logic
@@ -3633,20 +3634,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 444875754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03025cbf38fdc043b3df5251d9008b4, type: 3}
+  m_Script: {fileID: 11500000, guid: b22349ef3c85029439a37ac7bbc1cedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outsideTransform: {fileID: 49058449}
-  jumpScreen: {fileID: 1000886084}
-  shipCursor: {fileID: 2033274784}
-  shipAnim: {fileID: 2033274785}
-  shipSpinImage: {fileID: 41386138}
-  starScanScreen: {fileID: 0}
-  maxMuzzScale: 2
-  minMuzzScale: 0
-  warpParticles: {fileID: 1668390674}
-  maxParticleSpeed: 400
-  minParticleSpeed: 0
 --- !u!114 &444875758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3659,6 +3649,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bd6b03fc74b3a4f932c8932fd34dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &444875759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444875754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03025cbf38fdc043b3df5251d9008b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpScreen: {fileID: 1000886084}
+  shipCursor: {fileID: 0}
+  shipAnim: {fileID: 0}
+  shipSpinImage: {fileID: 0}
+  warpParticles: {fileID: 1668390674}
+  maxParticleSpeed: 1.4
 --- !u!1 &445861969
 GameObject:
   m_ObjectHideFlags: 0

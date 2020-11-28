@@ -33,7 +33,7 @@ public class World : MonoBehaviour
         public Vector2 localCoords;
         public Vector2Int cellCoords;
 
-        public Star star;
+        public StarObj star;
         public List<PlanetObj> planets;
     
         public Vector2 GlobalPos()
@@ -62,6 +62,17 @@ public class World : MonoBehaviour
         }
     }
 
+    public class StarObj : Star
+    {
+        public StarObj(Star star)
+        {
+            type = star.type;
+        }
+
+        new public string name;
+        public int temperature;
+    }
+
     public class PlanetObj : Planet
     {
         PlanetObj() { }
@@ -76,6 +87,7 @@ public class World : MonoBehaviour
             field = planet.field;
         }
 
+        new public string name;
         public float orbit;
         //moons
     }
@@ -92,7 +104,7 @@ public class World : MonoBehaviour
     {
         string[,] systemNames = new string[mapSize.x, mapSize.y];
         float[,] systemSecs = new float[mapSize.x, mapSize.y];
-        Star[,] systemStars = new Star[mapSize.x, mapSize.y];
+        StarObj[,] systemStars = new StarObj[mapSize.x, mapSize.y];
         List<PlanetObj>[,] systemPlanets = new List<PlanetObj>[mapSize.x, mapSize.y]; //Array of lists.
         Vector2[,] systemCoords = new Vector2[mapSize.x, mapSize.y];
 
@@ -113,7 +125,7 @@ public class World : MonoBehaviour
 
         int[,] systemNamesIds = new int[mapSize.x, mapSize.y];
 
-        for (int x = 0; x <= mapSize.x - 1; x++) //Generate UnityEngine.Random system name ids.
+        for (int x = 0; x <= mapSize.x - 1; x++) //Generate random system name ids.
         {
             for (int y = 0; y <= mapSize.y - 1; y++)
             {
@@ -132,9 +144,9 @@ public class World : MonoBehaviour
         string line;
         int j = 0;
 
-        while ((line = systemNamesFile.ReadLine()) != null)
+        while ((line = systemNamesFile.ReadLine()) != null) //Check if the current line is a valid system name.
         {
-            for (int x = 0; x <= mapSize.x - 1; x++) //Check if the current line is a valid system name.
+            for (int x = 0; x <= mapSize.x - 1; x++) 
             {
                 for (int y = 0; y <= mapSize.y - 1; y++)
                 {
@@ -179,8 +191,10 @@ public class World : MonoBehaviour
             {
                 int randomId = UnityEngine.Random.Range(0, starsAll.Length - 1);
 
-                Star star = starsAll[randomId];
+                StarObj star = new StarObj(starsAll[randomId]);
                 star.temperature = UnityEngine.Random.Range(star.minTemperature, star.maxTemperature);
+
+                star.name = systemNames[x, y];
 
                 systemStars[x, y] = star;
             }
@@ -209,6 +223,16 @@ public class World : MonoBehaviour
                     PlanetObj planet = new PlanetObj(planetsAll[randomId]);
                     orbitSum += UnityEngine.Random.Range(randMinOrbit, randMaxOrbit);
                     planet.orbit = orbitSum;
+
+                    const int digits = 4;
+                    string name = systemNames[x, y][0].ToString() + systemNames[x, y][1].ToString().ToUpper();
+                    for(int k = 0; k <= digits - 1; k++)
+                    {
+                        int rand = UnityEngine.Random.Range(0, 9);
+                        name += rand.ToString();
+                    }
+
+                    Debug.Log(name);
 
                     planetList.Add(planet);
                 }

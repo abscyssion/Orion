@@ -17,49 +17,38 @@ public class ObjJumpHandler : MonoBehaviour
 {
     public class SysObj
     {
+        public string name; //Given name of the star, planet;
+        public string type;
+        public string description;
+
+        /*
+         * bool canMine;
+         * bool canGasExcavate;
+         * 
+         */
+
         public float orbit;
         public int id;
-        public Type objType;
-        public object obj;
-
-        /*        public static SysObj ToSysObj(Star star)
-        {
-            SysObj sysObject = new SysObj();
-
-            sysObject.orbit = 0f;
-            sysObject.sysObj = star;
-            sysObject.sysObjType = sysObject.GetType();
-
-            return sysObject;
-        }
-        public static SysObj ToSysObj(PlanetObj planet)
-        {
-            SysObj sysObject = new SysObj();
-
-            sysObject.orbit = planet.orbit;
-            sysObject.sysObj = planet;
-
-
-            return sysObject;
-        }*/
 
         public SysObj(World.PlanetObj planet)
         {
+            //name =
+            type = planet.type;
+            description = planet.description;
             orbit = planet.orbit;
             id = planet.id;
-            objType = typeof(World.PlanetObj);
-            obj = planet;
         }
 
         public SysObj(Star star)
         {
+            name = star.name;
+            type = star.type;
+            description = star.description;
             orbit = 0;
             id = 0;
-            objType = typeof(Star);
-            obj = star;
         }
 
-        public T GetObj<T>()
+/*        public T GetObj<T>()
         {
             if (typeof(T) == objType)
             {
@@ -67,7 +56,7 @@ public class ObjJumpHandler : MonoBehaviour
             }
             else
                 return default;
-        }
+        }*/
     }
 
     public static ObjFlight currFlight;
@@ -77,7 +66,7 @@ public class ObjJumpHandler : MonoBehaviour
 
     private void Start()
     {
-        sysObjId = 0;
+        sysObjId = 1;
 
         ResetSysObjects();
 
