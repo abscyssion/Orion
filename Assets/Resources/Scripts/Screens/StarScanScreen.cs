@@ -82,7 +82,7 @@ public class StarScanScreen : Screen
 
     private bool Scan()
     {
-        if (!systemScanned && !systemScanning && !JumpHandler.jumping)
+        if (!systemScanned && !systemScanning && !Flight.jumping)
         {
             StartCoroutine(Scanning(Ship.scannerEff));
             return true;

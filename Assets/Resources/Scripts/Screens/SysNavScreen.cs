@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NavScreen : MonoBehaviour
+public class SysNavScreen : MonoBehaviour
 {
     private TextMeshProUGUI topText;
     private TextMeshProUGUI botText;

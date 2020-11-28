@@ -8,28 +8,26 @@ using UnityEngine.UI;
 
 public class SystemFlight : Flight
 {
-    public SystemFlight(World.Sys sys, float distance) : base(distance) //Constructor
+    public SystemFlight(World.Sys destSys, float distance) : base(distance) //Constructor
     {
-        destSys = sys;
+        this.destSys = destSys;
     }
 
-    public World.Sys destSys { get; }
+    public World.Sys destSys { get; private set; }
 }
 
-public class JumpHandler : MonoBehaviour
+public class SysJumpHandler : MonoBehaviour
 {
-    public Transform outsideTransform;
-    private const int outsideMaxDist = -25000; //The star and shit.
+/*    public Transform outsideTransform;
+    private const int outsideMaxDist = -25000; //The star and shit.*/
 
-    public JumpScreen jumpScreen;
+    public SysJumpScreen jumpScreen;
 
     public static SystemFlight currFlight;
 
-    public static bool jumping = false;
-
     private static GameObject[] engineMuzzles;
     private static Vector2[] muzzleScalesDef;
-    private static NavScreen[] navScreens;
+    private static SysNavScreen[] navScreens;
 
     public RectTransform shipCursor;
     public Animator shipAnim;
@@ -56,10 +54,10 @@ public class JumpHandler : MonoBehaviour
 
         minMuzzScale = engineMuzzles[0].transform.localScale.z;
 
-        GameObject[] navScreenObjects = GameObject.FindGameObjectsWithTag("Nav Screen"); navScreens = new NavScreen[navScreenObjects.Length];
+        GameObject[] navScreenObjects = GameObject.FindGameObjectsWithTag("Nav Screen"); navScreens = new SysNavScreen[navScreenObjects.Length];
         for(int i = 0; i <= navScreenObjects.Length - 1; i++)
         {
-            navScreens[i] = navScreenObjects[i].GetComponent<NavScreen>();
+            navScreens[i] = navScreenObjects[i].GetComponent<SysNavScreen>();
         }
 
         warpParticles.gameObject.SetActive(false);   
@@ -108,7 +106,7 @@ public class JumpHandler : MonoBehaviour
     {
         Vector2 shipEndMapPos = MapScreen.GetSystemPos(currFlight.destSys.cellCoords);
 
-        jumping = true;
+        Flight.jumping = true;
 
         warpParticles.gameObject.SetActive(true);
 
@@ -175,7 +173,7 @@ public class JumpHandler : MonoBehaviour
 
         warpParticles.gameObject.SetActive(false);
 
-        jumping = false;
+        Flight.jumping = false;
 
         jumpScreen.ToggleScreens();
         jumpScreen.RefreshScreen();

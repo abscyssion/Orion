@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.IO;
@@ -20,7 +21,9 @@ public class World : MonoBehaviour
     private const int maxPlanets = 5;
 
     private static Sys[,] systems;
+
     public static Vector2Int currSysId { get; private set; }
+    public static int currSysObjId { get; private set; } // 0 - the star
 
     public class Sys
     {
@@ -32,7 +35,6 @@ public class World : MonoBehaviour
 
         public Star star;
         public List<PlanetObj> planets;
-
     
         public Vector2 GlobalPos()
         {
@@ -77,6 +79,8 @@ public class World : MonoBehaviour
         public float orbit;
         //moons
     }
+    
+    
 
     void Awake()
     {
@@ -91,6 +95,7 @@ public class World : MonoBehaviour
         Star[,] systemStars = new Star[mapSize.x, mapSize.y];
         List<PlanetObj>[,] systemPlanets = new List<PlanetObj>[mapSize.x, mapSize.y]; //Array of lists.
         Vector2[,] systemCoords = new Vector2[mapSize.x, mapSize.y];
+
 
         //Get system names from a file.
         #region Names
@@ -108,11 +113,11 @@ public class World : MonoBehaviour
 
         int[,] systemNamesIds = new int[mapSize.x, mapSize.y];
 
-        for (int x = 0; x <= mapSize.x - 1; x++) //Generate random system name ids.
+        for (int x = 0; x <= mapSize.x - 1; x++) //Generate UnityEngine.Random system name ids.
         {
             for (int y = 0; y <= mapSize.y - 1; y++)
             {
-                int random = Random.Range(0, systemNamesIdsAll.Count - 1);
+                int random = UnityEngine.Random.Range(0, systemNamesIdsAll.Count - 1);
                 int systemNameId = systemNamesIdsAll[random];
                 systemNamesIdsAll.RemoveAt(random);
 
@@ -172,10 +177,10 @@ public class World : MonoBehaviour
         {
             for (int y = 0; y <= mapSize.y - 1; y++)
             {
-                int randomId = Random.Range(0, starsAll.Length - 1);
+                int randomId = UnityEngine.Random.Range(0, starsAll.Length - 1);
 
                 Star star = starsAll[randomId];
-                star.temperature = Random.Range(star.minTemperature, star.maxTemperature);
+                star.temperature = UnityEngine.Random.Range(star.minTemperature, star.maxTemperature);
 
                 systemStars[x, y] = star;
             }
@@ -184,7 +189,7 @@ public class World : MonoBehaviour
 
         //Generate planets of the systems.
         #region Planets
-        int planetsCount = Random.Range(minPlanets, maxPlanets);
+        int planetsCount = UnityEngine.Random.Range(minPlanets, maxPlanets);
 
         const float randMinOrbit = 0.2f; const float randMaxOrbit = 2f; //in AU
 
@@ -199,10 +204,10 @@ public class World : MonoBehaviour
 
                 for (int i = 0; i <= planetsCount - 1; i++)
                 {
-                    int randomId = Random.Range(0, planetsAll.Length - 1);
+                    int randomId = UnityEngine.Random.Range(0, planetsAll.Length - 1);
 
                     PlanetObj planet = new PlanetObj(planetsAll[randomId]);
-                    orbitSum += Random.Range(randMinOrbit, randMaxOrbit);
+                    orbitSum += UnityEngine.Random.Range(randMinOrbit, randMaxOrbit);
                     planet.orbit = orbitSum;
 
                     planetList.Add(planet);
@@ -212,6 +217,34 @@ public class World : MonoBehaviour
                 systemPlanets[x, y] = planetList;
             }
         }
+        #endregion
+
+        //System objects.
+        #region Sys. Objects
+/*        sysObjects = new List<SysObj>[mapSize.x, mapSize.y];
+
+        for (int x = 0; x <= mapSize.x - 1; x++)
+        {
+            for (int y = 0; y <= mapSize.y - 1; y++)
+            {
+                List<SysObj> sysObjectsList = new List<SysObj>();
+
+                sysObjectsList.Add(new SysObj(systemStars[x, y]));
+                foreach(PlanetObj planet in systemPlanets[x, y])
+                {
+                    sysObjectsList.Add(new SysObj(planet));
+                }
+
+                foreach(SysObj obj in sysObjectsList)
+                {
+                    Type type = obj.objType;
+
+                    Debug.Log(obj.GetObj<Star>());
+                }
+
+                sysObjects[x, y] = sysObjectsList;
+            }
+        }*/
         #endregion
 
         //Place the systems on a map.
@@ -230,8 +263,8 @@ public class World : MonoBehaviour
             {
                 Vector2 systemCoord = new Vector2
                 {
-                    x = Mathf.Clamp(Random.Range(-(cellSize.x / 2f), (cellSize.x / 2f)), -margin.x, margin.x),
-                    y = Mathf.Clamp(Random.Range(-(cellSize.y / 2f), (cellSize.y / 2f)), -margin.y, margin.y)
+                    x = Mathf.Clamp(UnityEngine.Random.Range(-(cellSize.x / 2f), (cellSize.x / 2f)), -margin.x, margin.x),
+                    y = Mathf.Clamp(UnityEngine.Random.Range(-(cellSize.y / 2f), (cellSize.y / 2f)), -margin.y, margin.y)
                 };
 
                 systemCoords[x, y] = systemCoord;
@@ -274,6 +307,8 @@ public class World : MonoBehaviour
         return systems[currSysId.x, currSysId.y];
     }
     
+   //public static 
+
     public static Vector2 GetSecPerlinSeed(float mapScale) //Gets a seed that generates high sec in the first systems.
     {
         int x, y;
@@ -286,8 +321,8 @@ public class World : MonoBehaviour
 
         while(true)
         {
-            seedX = Random.Range(0f, 1000000f);
-            seedY = Random.Range(0f, 1000000f);
+            seedX = UnityEngine.Random.Range(0f, 1000000f);
+            seedY = UnityEngine.Random.Range(0f, 1000000f);
 
             x = 0; y = 0;                             //[0,0]
             floatX = (float)x / mapSize.x * mapScale + seedX;

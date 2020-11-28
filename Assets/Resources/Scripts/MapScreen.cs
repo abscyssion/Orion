@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MapScreen : Screen
 {
-    private static JumpScreen jumpScreen;
+    private static SysJumpScreen jumpScreen;
 
     public GameObject cursorTop;
     private RectTransform cursorTopRect;
@@ -51,7 +51,7 @@ public class MapScreen : Screen
 
     private void Start()
     {
-        jumpScreen = GameObject.Find("Jump Screen").GetComponent<JumpScreen>();
+        jumpScreen = GameObject.Find("Jump Screen").GetComponent<SysJumpScreen>();
 
         Vector2Int mapSize = World.mapSize;
 
@@ -159,11 +159,11 @@ public class MapScreen : Screen
 
     private void LockSystem(Vector2Int cursorCell, Vector2 cursorPos)
     {
-        if (!JumpHandler.jumping)
+        if (!Flight.jumping)
         {
             World.Sys distSys = World.GetSystem(cursorCell);
 
-            JumpHandler.SetFlight(distSys);
+            SysJumpHandler.SetFlight(distSys);
             DisplaySystemName(distSys);
             jumpScreen.RefreshScreen();
 

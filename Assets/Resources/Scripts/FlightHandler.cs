@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Flight
 {
+    public static bool jumping = false;
+
     public Flight(float distance)
     {
         timeAcc = Ship.topSpeed / Ship.acceleration;

@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JumpScreen : Screen
+public class SysJumpScreen : Screen
 {
-    private JumpHandler jumpHandler;
+    private SysJumpHandler sysJumpHandler;
 
     public GameObject jumpingScreen;
 
@@ -44,7 +44,7 @@ public class JumpScreen : Screen
         cursorRect = cursor.GetComponent<RectTransform>();
         cursorScript = cursor.GetComponent<CursorHandler>();
 
-        jumpHandler = GameObject.Find("Logic").GetComponent<JumpHandler>();
+        sysJumpHandler = GameObject.Find("Logic").GetComponent<SysJumpHandler>();
         buttonColDef = buttonBackground.color;
     }
 
@@ -65,7 +65,7 @@ public class JumpScreen : Screen
                     {
                         StopAllCoroutines();
 
-                        if (jumpHandler.Jump())
+                        if (sysJumpHandler.Jump())
                             StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClick, buttonColDef));
                         else
                             StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClickInvalid, buttonColDef));
@@ -111,7 +111,7 @@ public class JumpScreen : Screen
 
     public void RefreshScreen()
     {
-        SystemFlight flight = JumpHandler.currFlight;
+        SystemFlight flight = SysJumpHandler.currFlight;
         World.Sys destSys = flight.destSys;
 
         string systemString = destSys.name;
