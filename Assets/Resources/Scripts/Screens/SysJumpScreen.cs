@@ -123,12 +123,11 @@ public class SysJumpScreen : Screen
             infoSubScreen.SetActive(true);
             currVisSubScreen.SetActive(false);
 
-            SystemFlight.FlightDetails details = flight.GetFlightDetails();
 
-            string distString = details.distance + " light years.";
+            string distString = flight.details.distance + " light years.";
             distText.SetText(distString);
 
-            string timeString = details.time + " total.";
+            string timeString = flight.details.time + " total.";
             timeText.SetText(timeString);
 
             string securityString = destSys.FormatSec() + " " + SecurityText(destSys.security);
@@ -137,7 +136,7 @@ public class SysJumpScreen : Screen
             string fuelTopString = Mathf.Round(Ship.fuel) + "/" + Ship.maxFuel;
             fuelTopText.SetText(fuelTopString);
 
-            string fuelBotString = "-" + details.fuel;
+            string fuelBotString = "-" + flight.details.fuel;
             fuelBotText.SetText(fuelBotString);
 
             string fuelStatusString;

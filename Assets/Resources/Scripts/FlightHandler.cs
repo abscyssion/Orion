@@ -7,21 +7,25 @@ public class Flight
 {
     public static bool jumping = false;
 
-    public Flight(float distance)
+    public Flight(float distance, float topSpeed, float acceleration, float fuelEfficency)
     {
-        timeAcc = Ship.sysJumpTopSpeed / Ship.sysJumpAcceleration;
-        float accDist = Ship.sysJumpTopSpeed / 2 / timeAcc;
+        this.distance = distance;
 
-        timeCru = (distance - accDist * 2) / Ship.sysJumpTopSpeed;
+        timeAcc = topSpeed / acceleration;
+        float accDist = topSpeed / 2 / timeAcc;
+
+        timeCru = (distance - accDist * 2) / topSpeed;
 
         timeTotal = timeAcc * 2 + timeCru;
 
-        fuel = Ship.fuelEfficency * distance;
+        fuel = fuelEfficency * distance;
 
         if (fuel <= Ship.fuel)
             possible = true;
         else
             possible = false;
+
+        details = new FlightDetails(this.distance, timeTotal, fuel);
     }
 
     public float distance { get; protected set; }
@@ -29,6 +33,8 @@ public class Flight
     public float timeCru { get; protected set; }
     public float timeTotal { get; protected set; } //In seconds.
     public float fuel { get; protected set; }
+
+    public FlightDetails details { get; private set; }
     public bool possible { get; protected set; }
 
     #region Flight Details (Strings)
@@ -52,13 +58,6 @@ public class Flight
         public string time { get; private set; }
         public string fuel { get; private set; }
     }
-
-    public FlightDetails GetFlightDetails()
-    {
-        FlightDetails flightDetails = new FlightDetails(distance, timeTotal, fuel);
-
-        return flightDetails;
-    }
     #endregion
 }
 public class FlightHandler : MonoBehaviour
@@ -66,12 +65,12 @@ public class FlightHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

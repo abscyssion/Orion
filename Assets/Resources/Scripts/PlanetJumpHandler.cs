@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjFlight : Flight
+public class PlanetFlight : Flight
 {
-    public ObjFlight(World.PlanetObj destPlanet, float distance) : base(distance) //Constructor
+    public PlanetFlight(PlanetJumpHandler.SysObj destObj, float distance) : base(distance, Ship.planetJumpTopSpeed, Ship.planetJumpAcceleration, Ship.planetFuelEfficency) //Constructor
     {
-       
+        this.destObj = destObj;
     }
 
-    public World.PlanetObj destPlanet;
+    public PlanetJumpHandler.SysObj destObj;
 }
 
 public class PlanetJumpHandler : MonoBehaviour
@@ -47,22 +47,22 @@ public class PlanetJumpHandler : MonoBehaviour
             orbit = 0;
             id = 0;
         }
-
-/*        public T GetObj<T>()
-        {
-            if (typeof(T) == objType)
-            {
-                return (T)Convert.ChangeType(obj, typeof(T));
-            }
-            else
-                return default;
-        }*/
     }
 
-    public static ObjFlight currFlight;
+    public static PlanetFlight currFlight;
     private static List<SysObj> sysObjects;
     private static int sysObjId;
 
+    public static PlanetFlight GenerateFlight(SysObj destObj)
+    {
+        float distance = Mathf.Abs(GetSysObj().orbit - destObj.orbit);
+        return new PlanetFlight(destObj, distance);
+    }
+
+    public static void SetFlight(PlanetFlight planetFlight)
+    {
+        currFlight = planetFlight;
+    }
 
     private void Awake()
     {

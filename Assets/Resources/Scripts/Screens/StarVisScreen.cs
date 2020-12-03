@@ -234,7 +234,6 @@ public class StarVisScreen : Screen
         Color orbColor = vis.color - new Color(orbitDarkenBy, orbitDarkenBy, orbitDarkenBy);
         orbColor.a = orbitAlpha;
 
-        Debug.Log(orbColor);
         Image orbImg = orbObj.AddComponent<Image>();
         orbImg.sprite = orbitSprite;
         orbImg.color = orbColor;

@@ -113,7 +113,7 @@ public class PlanetJumpScreen : Screen
 
             TextMeshProUGUI topText = topObj.AddComponent<TextMeshProUGUI>();
             topText.fontStyle = FontStyles.Bold;
-            topText.alignment = TextAlignmentOptions.Center;
+            topText.alignment = TextAlignmentOptions.BottomGeoAligned;
             topText.font = font;
             topText.fontSize = topRect.sizeDelta.y * topFontPerc;
             topText.text = topString;
@@ -124,6 +124,12 @@ public class PlanetJumpScreen : Screen
             #endregion
 
             #region Bottom text
+            PlanetFlight flight = PlanetJumpHandler.GenerateFlight(sysObj);
+            string botString;
+            if (flight.distance > 0)
+                botString = flight.details.distance + " AU from you, " + flight.details.fuel + " fuel.";
+            else
+                botString = "You are here.";
 
             const float botFontPerc = 0.5f;
             GameObject botObj = new GameObject("Bot");
@@ -136,10 +142,10 @@ public class PlanetJumpScreen : Screen
             botRect.pivot = new Vector2(0.5f, 0);
 
             TextMeshProUGUI botText = botObj.AddComponent<TextMeshProUGUI>();
-            botText.alignment = TextAlignmentOptions.Center;
+            botText.alignment = TextAlignmentOptions.TopGeoAligned;
             botText.font = font;
             botText.fontSize = botRect.sizeDelta.y * botFontPerc;
-            botText.text = "Desert very nice.";
+            botText.text = botString;
 
             Screen.RefreshRectOffset(botRect);
             botRect.sizeDelta = new Vector2(0, rect.sizeDelta.y / 2);

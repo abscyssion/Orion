@@ -157,10 +157,10 @@ public class MapScreen : Screen
     {
         if (!Flight.jumping)
         {
-            World.Sys distSys = World.GetSystem(cursorCell);
+            World.Sys destSys = World.GetSystem(cursorCell);
 
-            SysJumpHandler.SetFlight(distSys);
-            DisplaySystemName(distSys);
+            SysJumpHandler.SetFlight(SysJumpHandler.GenerateFlight(destSys));
+            DisplaySystemName(destSys);
             sysJumpScreen.RefreshScreen();
 
             lockAnim.SetTrigger("Trigger");

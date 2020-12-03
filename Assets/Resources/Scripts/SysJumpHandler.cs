@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class SystemFlight : Flight
 {
-    public SystemFlight(World.Sys destSys, float distance) : base(distance) //Constructor
+    public SystemFlight(World.Sys destSys, float distance) : base(distance, Ship.sysJumpTopSpeed, Ship.sysJumpAcceleration, Ship.sysFuelEfficency) //Constructor
     {
         this.destSys = destSys;
     }
@@ -65,15 +65,18 @@ public class SysJumpHandler : MonoBehaviour
         starScanScreen = GameObject.Find("Star Scan Screen").GetComponent<StarScanScreen>();
     }
 
-
-    public static void SetFlight(World.Sys sys)
+    
+    public static SystemFlight GenerateFlight(World.Sys sys)
     {
-
         Vector2 distVec = sys.GlobalPos() - World.GetSystem().GlobalPos();
         float distance = Mathf.Abs(distVec.x) + Mathf.Abs(distVec.y);
 
+        return new SystemFlight(sys, distance);
+    }
 
-        currFlight = new SystemFlight(sys, distance);
+    public static void SetFlight(SystemFlight systemFlight)
+    {
+        currFlight = systemFlight;
     }
 
     public bool Jump()
