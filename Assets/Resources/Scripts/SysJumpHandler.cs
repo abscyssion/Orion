@@ -118,8 +118,8 @@ public class SysJumpHandler : MonoBehaviour
         float timeTotal = currFlight.timeTotal;
         float timeAcc = currFlight.timeAcc;
         float timeCru = currFlight.timeCru;
-        float acceleration = Ship.acceleration;
-        float jumpVelPeak = Ship.topSpeed;
+        float acceleration = Ship.sysJumpAcceleration;
+        float jumpVelPeak = Ship.sysJumpTopSpeed;
 
         float jumpDist = currFlight.distance;
 

@@ -18,7 +18,6 @@ MonoBehaviour:
     red in color stars. They reach temperatures between only 500K and 700K.
   maxTemperature: 700
   minTemperature: 700
-  temperature: 700
   sprite: {fileID: 21300000, guid: d7670d35864487544ae89479540f7f92, type: 3}
   visSize: 90
-  visualisationColor: {r: 0.5660378, g: 0.2429414, b: 0.104129605, a: 1}
+  visColor: {r: 0.5566038, g: 0.15251301, b: 0, a: 1}

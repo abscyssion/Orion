@@ -24,9 +24,6 @@ public class StarScanScreen : Screen
     public Image buttonBgContainerImg;
         private const float buttonColChDelay = 0.15f;
         private Color buttonColDef;
-        [SerializeField] private Color buttonColHover;
-        [SerializeField] private Color buttonColPress;
-        [SerializeField] private Color buttonColWrong;
     public GameObject buttonBackground;
         private Image buttonBgImg;
             [SerializeField] private Color buttonBgColMin;
@@ -65,10 +62,10 @@ public class StarScanScreen : Screen
 
                     if(Input.GetMouseButtonDown(0))
                     {
-                        StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColPress, buttonColDef));
+                        StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColClick, buttonColDef));
 
                         if (!Scan())
-                            StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColWrong, buttonColDef));
+                            StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColInvalid, buttonColDef));
 
                     }
                 }

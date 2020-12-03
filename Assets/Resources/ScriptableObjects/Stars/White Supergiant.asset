@@ -19,7 +19,6 @@ MonoBehaviour:
     and 50,000K.
   maxTemperature: 50000
   minTemperature: 30000
-  temperature: 33395
   sprite: {fileID: 21300000, guid: 23c46874ef949394e854a6b23770ca5b, type: 3}
   visSize: 150
-  visualisationColor: {r: 0.8627451, g: 0.9137255, b: 0.9254902, a: 1}
+  visColor: {r: 0.83303666, g: 0.88102025, b: 0.9056604, a: 1}

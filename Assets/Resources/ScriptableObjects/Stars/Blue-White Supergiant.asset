@@ -18,7 +18,6 @@ MonoBehaviour:
     luminous and blue. They reach temperatures in range between 10,000K and 30,000K.
   maxTemperature: 30000
   minTemperature: 10000
-  temperature: 27055
   sprite: {fileID: 21300000, guid: c6c16d9489bb0364688e7550e3d67f89, type: 3}
   visSize: 140
-  visualisationColor: {r: 0.58431375, g: 0.8039216, b: 0.8666667, a: 1}
+  visColor: {r: 0.6580189, g: 0.8053126, b: 0.8773585, a: 1}

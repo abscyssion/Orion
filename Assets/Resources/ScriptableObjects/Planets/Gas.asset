@@ -22,4 +22,4 @@ MonoBehaviour:
   canSupportLife: 0
   field: 0
   visSize: 35
-  visualisationColor: {r: 0.16078432, g: 0.47058824, b: 0.2509804, a: 1}
+  visColor: {r: 0.16078432, g: 0.47058824, b: 0.2509804, a: 0.7254902}

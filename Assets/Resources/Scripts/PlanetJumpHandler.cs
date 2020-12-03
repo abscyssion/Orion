@@ -13,7 +13,7 @@ public class ObjFlight : Flight
     public World.PlanetObj destPlanet;
 }
 
-public class ObjJumpHandler : MonoBehaviour
+public class PlanetJumpHandler : MonoBehaviour
 {
     public class SysObj
     {
@@ -32,14 +32,14 @@ public class ObjJumpHandler : MonoBehaviour
 
         public SysObj(World.PlanetObj planet)
         {
-            //name =
+            name = planet.name;
             type = planet.type;
             description = planet.description;
             orbit = planet.orbit;
             id = planet.id;
         }
 
-        public SysObj(Star star)
+        public SysObj(World.StarObj star)
         {
             name = star.name;
             type = star.type;
@@ -64,13 +64,11 @@ public class ObjJumpHandler : MonoBehaviour
     private static int sysObjId;
 
 
-    private void Start()
+    private void Awake()
     {
-        sysObjId = 1;
+        sysObjId = 0;
 
         ResetSysObjects();
-
-        Debug.Log(GetSysObj().orbit);
     }
 
     public static void ResetSysObjects()
@@ -102,5 +100,10 @@ public class ObjJumpHandler : MonoBehaviour
     public static SysObj GetSysObj(int id)
     {
         return sysObjects[id];
+    }
+
+    public static List<SysObj> GetSysObjects()
+    {
+        return sysObjects;
     }
 }

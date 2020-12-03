@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MapScreen : Screen
 {
-    private static SysJumpScreen jumpScreen;
+    public SysJumpScreen sysJumpScreen;
 
     public GameObject cursorTop;
     private RectTransform cursorTopRect;
@@ -40,10 +40,8 @@ public class MapScreen : Screen
 
     public RectTransform buttonRect;
     public Image buttonBackground;
-        private Color buttonColDef;
-        public Color buttonColHover;
-        public Color buttonColClick;
-    private const float buttonColorDelay = 0.15f;
+    private Color buttonColDef;
+
 
     private Vector2Int lockPos;
 
@@ -51,8 +49,6 @@ public class MapScreen : Screen
 
     private void Start()
     {
-        jumpScreen = GameObject.Find("Jump Screen").GetComponent<SysJumpScreen>();
-
         Vector2Int mapSize = World.mapSize;
 
         cursorTopRect = cursorTop.GetComponent<RectTransform>();
@@ -165,7 +161,7 @@ public class MapScreen : Screen
 
             SysJumpHandler.SetFlight(distSys);
             DisplaySystemName(distSys);
-            jumpScreen.RefreshScreen();
+            sysJumpScreen.RefreshScreen();
 
             lockAnim.SetTrigger("Trigger");
             lockRect.anchoredPosition = cursorPos;
@@ -257,14 +253,12 @@ public class MapScreen : Screen
             y = localCoords.y * cellMultiplier.y
         };
 
+        Screen.RefreshRect(starRect);
+        starRect.anchoredPosition = starPos;
+        starRect.sizeDelta = new Vector2(10, 10);
         starRect.anchorMin = new Vector2(0, 0);
         starRect.anchorMax = new Vector2(0, 0);
         starRect.pivot = new Vector2(0.5f, 0.5f);
-        starRect.localPosition = new Vector3(0, 0, 0);
-        starRect.anchoredPosition = starPos;
-        starRect.localScale = new Vector3(1, 1, 1);
-        starRect.localEulerAngles = new Vector3(0, 0, 0);
-        starRect.sizeDelta = new Vector2(10, 10);
 
         //Sprite
         star.AddComponent<CanvasRenderer>();
@@ -283,14 +277,13 @@ public class MapScreen : Screen
 
         starContainer.transform.SetParent(starsContainer.transform);
 
-        starContainerRect.localScale = new Vector3(1, 1, 1);
-        starContainerRect.localEulerAngles = new Vector3(0, 0, 0);
-        starContainerRect.sizeDelta = cellSize;
         starContainerRect.anchorMin = new Vector2(0, 0);
         starContainerRect.anchorMax = new Vector2(0, 0);
         starContainerRect.pivot = new Vector2(0, 0);
+        Screen.RefreshRect(starContainerRect);
         starContainerRect.localPosition = starContainerPos;
-
+        starContainerRect.sizeDelta = cellSize;
+  
         Color starContainerColor = Color.Lerp(Color.red, Color.green, systemSecurity); starContainerColor.a = cellColorAlpha;
         starContainerImg.color = starContainerColor;
         starContainerImg.enabled = false;
@@ -312,26 +305,14 @@ public class MapScreen : Screen
     }
 
     bool secDisplayToggled = false;
+
     private void ToggleSecDisplay()
     {
-        if(!secDisplayToggled)
+        for (int x = 0; x <= World.mapSize.x - 1; x++)
         {
-            for (int x = 0; x <= World.mapSize.x - 1; x++)
+            for (int y = 0; y <= World.mapSize.y - 1; y++)
             {
-                for (int y = 0; y <= World.mapSize.y - 1; y++)
-                {
-                    starContainersImg[x, y].enabled = true;
-                }
-            }
-        }
-        else
-        {
-            for (int x = 0; x <= World.mapSize.x - 1; x++)
-            {
-                for (int y = 0; y <= World.mapSize.y - 1; y++)
-                {
-                    starContainersImg[x, y].enabled = false;
-                }
+                starContainersImg[x, y].enabled = !secDisplayToggled;
             }
         }
 

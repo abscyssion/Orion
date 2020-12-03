@@ -9,10 +9,10 @@ public class Flight
 
     public Flight(float distance)
     {
-        timeAcc = Ship.topSpeed / Ship.acceleration;
-        float accDist = Ship.topSpeed / 2 / timeAcc;
+        timeAcc = Ship.sysJumpTopSpeed / Ship.sysJumpAcceleration;
+        float accDist = Ship.sysJumpTopSpeed / 2 / timeAcc;
 
-        timeCru = (distance - accDist * 2) / Ship.topSpeed;
+        timeCru = (distance - accDist * 2) / Ship.sysJumpTopSpeed;
 
         timeTotal = timeAcc * 2 + timeCru;
 

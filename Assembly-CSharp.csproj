@@ -70,14 +70,14 @@
     <Compile Include="Assets\Resources\Scripts\Console\TypingSounds.cs" />
     <Compile Include="Assets\Resources\Scripts\CursorHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\FlightHandler.cs" />
-    <Compile Include="Assets\Resources\Scripts\MapScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\MovementSounds.cs" />
     <Compile Include="Assets\Resources\Scripts\MovingDoors.cs" />
-    <Compile Include="Assets\Resources\Scripts\ObjJumpHandler.cs" />
+    <Compile Include="Assets\Resources\Scripts\PlanetJumpHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Player Control\PlayerLook.cs" />
     <Compile Include="Assets\Resources\Scripts\Player Control\PlayerMove.cs" />
-    <Compile Include="Assets\Resources\Scripts\Screen.cs" />
+    <Compile Include="Assets\Resources\Scripts\Screens\MapScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\PlanetJumpScreen.cs" />
+    <Compile Include="Assets\Resources\Scripts\Screens\Screen.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\StarScanScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\StarVisScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\SysJumpScreen.cs" />

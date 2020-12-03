@@ -16,5 +16,5 @@ public class Planet : ScriptableObject
     public bool field; //Eg. asteroid field, gas cloud.
 
     public int visSize;
-    public Color visualisationColor;
+    public Color visColor;
 }

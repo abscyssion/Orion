@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StarVisScreen : MonoBehaviour
+public class StarVisScreen : Screen
 {
     private class VisImage
     {
         public RectTransform rect;
-        public string name;
+        public string type;
         public int id;
         public Color color;
         public Sprite sprite;
@@ -80,16 +80,16 @@ public class StarVisScreen : MonoBehaviour
 
         #region Init
         //Star
-        Star starObj = sys.star;
+        World.StarObj starObj = sys.star;
 
-        star.name = starObj.name;
+        star.type = starObj.type;
         star.id = starObj.id;
-        star.color = starObj.visualisationColor;
+        star.color = starObj.visColor;
         star.sprite = starSprite;
         star.size = starObj.visSize;
 
         //Planets
-        foreach(Planet planet in sys.planets)
+        foreach(World.PlanetObj planet in sys.planets)
         {
             Sprite sprite;
             if (!planet.field)
@@ -99,9 +99,9 @@ public class StarVisScreen : MonoBehaviour
 
             VisImage planetVis = new VisImage
             {
-                name = planet.name,
+                type = planet.type,
                 id = planet.id,
-                color = planet.visualisationColor,
+                color = planet.visColor,
                 sprite = sprite,
                 field = planet.field
             };
@@ -139,8 +139,6 @@ public class StarVisScreen : MonoBehaviour
                 planet.posX = virtPosX;
             else
                 planet.posX = 0;
-
-            Debug.Log(i + ": " + virtPosX);
         }
 
         #endregion
@@ -149,7 +147,7 @@ public class StarVisScreen : MonoBehaviour
         for(int i = 0; i <= planets.Count - 1; i++)
         {
             VisImage planetVis = planets[i];
-            Planet planet = world.planetsAll[planetVis.id];
+            World.PlanetObj planet = World.GetSystem().planets[i];
 
             if (!planetVis.field)
                 planetVis.size = planet.visSize;
@@ -178,14 +176,11 @@ public class StarVisScreen : MonoBehaviour
 
     private void DrawVisualisation(VisImage vis)
     {
-        GameObject visObj = new GameObject();
+        GameObject visObj = new GameObject(vis.type);
         visObj.transform.SetParent(systemParent);
-        visObj.transform.name = vis.name;
 
         RectTransform visRect = visObj.AddComponent<RectTransform>();
-        visRect.localScale = new Vector3(1, 1, 1);
-        visRect.localPosition = new Vector3(0, 0, 0);
-        visRect.localEulerAngles = new Vector3(0, 0, 0);
+        Screen.RefreshRect(visRect);
         visRect.anchorMin = new Vector2 { x = 0.5f, y = 0.5f };
         visRect.anchorMax = new Vector2 { x = 0.5f, y = 0.5f };
         visRect.pivot = new Vector2 { x = 0.5f, y = 0.5f };
@@ -205,7 +200,7 @@ public class StarVisScreen : MonoBehaviour
     private void DrawOrbit(VisImage vis)
     {
         float virtPosX = vis.virtPosX;
-        string name = vis.name + "'s Orbit";
+        string name = vis.type + "'s Orbit";
 
         float correction = 1.05f;
 

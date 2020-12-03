@@ -67,6 +67,15 @@ public class World : MonoBehaviour
         public StarObj(Star star)
         {
             type = star.type;
+            description = star.description;
+
+            maxTemperature = star.maxTemperature;
+            minTemperature = star.minTemperature;
+
+            sprite = star.sprite;
+
+            visSize = star.visSize;
+            visColor = star.visColor;
         }
 
         new public string name;
@@ -81,10 +90,14 @@ public class World : MonoBehaviour
         {
             type = planet.type;
             description = planet.description;
+
             canHaveAtmosphere = planet.canHaveAtmosphere;
             canHaveMoons = planet.canHaveMoons;
             canSupportLife = planet.canSupportLife;
             field = planet.field;
+
+            visSize = planet.visSize;
+            visColor = planet.visColor;
         }
 
         new public string name;
@@ -110,7 +123,7 @@ public class World : MonoBehaviour
 
 
         //Get system names from a file.
-        #region Names
+        #region System Names
         var systemNamesFilePath = mainDir + "/systemNames.txt";
         var systemNamesFile = new StreamReader(systemNamesFilePath);
 
@@ -207,7 +220,6 @@ public class World : MonoBehaviour
 
         const float randMinOrbit = 0.2f; const float randMaxOrbit = 2f; //in AU
 
-
         float orbitSum = 0.5f;
         for (int x = 0; x <= mapSize.x - 1; x++)
         {
@@ -225,15 +237,14 @@ public class World : MonoBehaviour
                     planet.orbit = orbitSum;
 
                     const int digits = 4;
-                    string name = systemNames[x, y][0].ToString() + systemNames[x, y][1].ToString().ToUpper();
+                    string name = systemNames[x, y][0].ToString() + systemNames[x, y][1].ToString();
                     for(int k = 0; k <= digits - 1; k++)
                     {
                         int rand = UnityEngine.Random.Range(0, 9);
                         name += rand.ToString();
                     }
 
-                    Debug.Log(name);
-
+                    planet.name = name;
                     planetList.Add(planet);
                 }
 
@@ -241,34 +252,6 @@ public class World : MonoBehaviour
                 systemPlanets[x, y] = planetList;
             }
         }
-        #endregion
-
-        //System objects.
-        #region Sys. Objects
-/*        sysObjects = new List<SysObj>[mapSize.x, mapSize.y];
-
-        for (int x = 0; x <= mapSize.x - 1; x++)
-        {
-            for (int y = 0; y <= mapSize.y - 1; y++)
-            {
-                List<SysObj> sysObjectsList = new List<SysObj>();
-
-                sysObjectsList.Add(new SysObj(systemStars[x, y]));
-                foreach(PlanetObj planet in systemPlanets[x, y])
-                {
-                    sysObjectsList.Add(new SysObj(planet));
-                }
-
-                foreach(SysObj obj in sysObjectsList)
-                {
-                    Type type = obj.objType;
-
-                    Debug.Log(obj.GetObj<Star>());
-                }
-
-                sysObjects[x, y] = sysObjectsList;
-            }
-        }*/
         #endregion
 
         //Place the systems on a map.
@@ -333,7 +316,7 @@ public class World : MonoBehaviour
     
    //public static 
 
-    public static Vector2 GetSecPerlinSeed(float mapScale) //Gets a seed that generates high sec in the first systems.
+    private static Vector2 GetSecPerlinSeed(float mapScale) //Gets a seed that generates high sec in the first systems.
     {
         int x, y;
 

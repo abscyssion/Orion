@@ -34,10 +34,6 @@ public class SysJumpScreen : Screen
     public RectTransform buttonRect;
     public Image buttonBackground;
     private Color buttonColDef;
-    public Color buttonColHover;
-    public Color buttonColClick;
-    public Color buttonColClickInvalid;
-    private const float buttonColorDelay = 0.2f;
 
     private void Awake()
     {
@@ -68,7 +64,7 @@ public class SysJumpScreen : Screen
                         if (sysJumpHandler.Jump())
                             StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClick, buttonColDef));
                         else
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClickInvalid, buttonColDef));
+                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColInvalid, buttonColDef));
                     }
                 }
             }

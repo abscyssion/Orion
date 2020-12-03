@@ -16,5 +16,5 @@ public class Star : ScriptableObject
     public Sprite sprite;
 
     public int visSize;
-    public Color visualisationColor;
+    public Color visColor;
 }
