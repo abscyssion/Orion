@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static PlanetJumpHandler;
 
 public class PlanetJumpScreen : Screen
 {
+    private Screen scr;
+
     public GameObject infoScreen;
     public GameObject jumpingScreen;
 
@@ -20,12 +23,20 @@ public class PlanetJumpScreen : Screen
     public RectTransform buttonRect;
     public Image buttonBackground;
         private Color buttonColDef;
-        private bool changingColor = false;
 
     public TMP_FontAsset font;
 
+    private Color selectColor = Color.yellow;
+
+    private List<RectTransform> outlineRects;
+    private List<Image> outlineImages;
+
+    private SysObj destObj;
+
     private void Awake()
     {
+        scr = gameObject.AddComponent<Screen>();
+
         cursorRect = cursor.GetComponent<RectTransform>();
         cursorScript = cursor.GetComponent<CursorHandler>();
 
@@ -43,7 +54,7 @@ public class PlanetJumpScreen : Screen
 
             if (Screen.IsHovering(buttonRect, cursorPos))
             {
-                if (!changingColor)
+                if (!scr.changingColor)
                 {
                     buttonBackground.color = buttonColHover;
 
@@ -61,6 +72,18 @@ public class PlanetJumpScreen : Screen
             else
             {
                 buttonBackground.color = buttonColDef;
+
+                int i = 0;
+                foreach(RectTransform rect in outlineRects)
+                { 
+                    if(Screen.IsHovering(rect, cursorPos))
+                    {
+                        break;
+                    }
+
+                    i++;
+                }
+                
             }
         }
     }
@@ -74,6 +97,9 @@ public class PlanetJumpScreen : Screen
 
         float spacePerObj = parentDiam.y / sysObjs.Count;
         float padding = spacePerObj * paddingPerc;
+
+        outlineRects = new List<RectTransform>();
+        outlineImages = new List<Image>();
 
         int i = 0;
         foreach(PlanetJumpHandler.SysObj sysObj in sysObjs)
@@ -95,6 +121,9 @@ public class PlanetJumpScreen : Screen
             img.sprite = boxTexture;
             img.type = Image.Type.Sliced;
 
+            outlineRects.Add(rect);
+            outlineImages.Add(img);
+
             #endregion
 
             #region Top text
@@ -114,6 +143,7 @@ public class PlanetJumpScreen : Screen
             TextMeshProUGUI topText = topObj.AddComponent<TextMeshProUGUI>();
             topText.fontStyle = FontStyles.Bold;
             topText.alignment = TextAlignmentOptions.BottomGeoAligned;
+            topText.overflowMode = TextOverflowModes.Ellipsis;
             topText.font = font;
             topText.fontSize = topRect.sizeDelta.y * topFontPerc;
             topText.text = topString;
@@ -143,6 +173,7 @@ public class PlanetJumpScreen : Screen
 
             TextMeshProUGUI botText = botObj.AddComponent<TextMeshProUGUI>();
             botText.alignment = TextAlignmentOptions.TopGeoAligned;
+            botText.overflowMode = TextOverflowModes.Ellipsis;
             botText.font = font;
             botText.fontSize = botRect.sizeDelta.y * botFontPerc;
             botText.text = botString;

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class StarScanScreen : Screen
 {
+    private Screen scr;
+
     public GameObject cursor;
         private RectTransform cursorRect;
         private CursorHandler cursorScript;
@@ -39,6 +41,8 @@ public class StarScanScreen : Screen
 
     private void Awake()
     {
+        scr = gameObject.AddComponent<Screen>();
+
         cursorRect = cursor.GetComponent<RectTransform>();
         cursorScript = cursor.GetComponent<CursorHandler>();
 
@@ -56,16 +60,16 @@ public class StarScanScreen : Screen
         {
             if (!systemScanning && Screen.IsHovering(buttonRect, cursorRect.anchoredPosition))
             {
-                if (!buttonChColor)
+                if (!scr.changingColor)
                 {
                     buttonBgContainerImg.color = buttonColHover;
 
                     if(Input.GetMouseButtonDown(0))
                     {
-                        StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColClick, buttonColDef));
+                        scr.ChangeColor(buttonBgContainerImg, buttonColClick, buttonColDef);
 
                         if (!Scan())
-                            StartCoroutine(ChangeButtonColor(buttonBgContainerImg, buttonColInvalid, buttonColDef));
+                            scr.ChangeColor(buttonBgContainerImg, buttonColInvalid, buttonColDef);
 
                     }
                 }
@@ -110,7 +114,7 @@ public class StarScanScreen : Screen
         }
 
         starVisScreen.DrawVisualisations(World.GetSystem());
-        starVisScreen.ChangeScreen();   
+        starVisScreen.ChangeScreen(true);   
 
         World.StarObj currStar = World.GetSystem().star;
 
@@ -165,20 +169,6 @@ public class StarScanScreen : Screen
         topOutline.enabled = true;
 
         starVisScreen.DestroyVisualisations();
-        starVisScreen.ChangeScreen();
-    }
-
-    bool buttonChColor;
-    private IEnumerator ChangeButtonColor(Image image, Color colorCh, Color colorDef)
-    {
-        buttonChColor = true;
-
-        image.color = colorCh;
-
-        yield return new WaitForSeconds(buttonColChDelay);
-
-        image.color = colorDef;
-
-        buttonChColor = false;
+        starVisScreen.ChangeScreen(false);
     }
 }

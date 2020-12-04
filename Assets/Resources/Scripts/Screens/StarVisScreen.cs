@@ -240,16 +240,10 @@ public class StarVisScreen : Screen
     }
 
 
-    bool mainActive = false;
-    public void ChangeScreen()
+    public void ChangeScreen(bool turnOn)
     {
-        mainScreen.SetActive(!mainActive);
-        infoScreen.SetActive(mainActive);
-
-        if (!mainActive)
-            StartCoroutine(FadeInVis());
-
-        mainActive = !mainActive;
+        mainScreen.SetActive(turnOn);
+        infoScreen.SetActive(!turnOn);
     }
 
     private IEnumerator FadeInVis()

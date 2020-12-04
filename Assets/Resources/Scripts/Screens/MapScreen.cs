@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MapScreen : Screen
 {
+    private Screen scr;
+
     public SysJumpScreen sysJumpScreen;
 
     public GameObject cursorTop;
@@ -42,13 +44,10 @@ public class MapScreen : Screen
     public Image buttonBackground;
     private Color buttonColDef;
 
-
-    private Vector2Int lockPos;
-
-    List<string> starAllTypes = new List<string>();
-
     private void Start()
     {
+        scr = gameObject.AddComponent<Screen>();
+
         Vector2Int mapSize = World.mapSize;
 
         cursorTopRect = cursorTop.GetComponent<RectTransform>();
@@ -89,7 +88,6 @@ public class MapScreen : Screen
 
     bool mousePrev = false;
     Vector2Int cursorCellPrev = new Vector2Int();
-    bool buttonChColor = false;
     private void Update()
     {
         if (cursorTopScript.active)
@@ -132,14 +130,14 @@ public class MapScreen : Screen
                 Vector2 cursorPos = cursorBotRect.anchoredPosition;
                 if (Screen.IsHovering(buttonRect, cursorPos))
                 {
-                    if (!buttonChColor)
+                    if (!scr.changingColor)
                     {
                         buttonBackground.color = buttonColHover;
 
                         if (Input.GetMouseButtonDown(0))
                         {
                             //StopAllCoroutines();
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClick, buttonColDef));
+                            scr.ChangeColor(buttonBackground, buttonColClick, buttonColDef);
 
                             ToggleSecDisplay();
                         }
@@ -289,19 +287,6 @@ public class MapScreen : Screen
         starContainerImg.enabled = false;
 
         return starContainer;
-    }
-
-    private IEnumerator ChangeButtonColor(Image image, Color colorCh, Color colorDef)
-    {
-        buttonChColor = true;
-
-        image.color = colorCh;
-
-        yield return new WaitForSeconds(buttonColorDelay);
-
-        image.color = colorDef;
-
-        buttonChColor = false;
     }
 
     bool secDisplayToggled = false;

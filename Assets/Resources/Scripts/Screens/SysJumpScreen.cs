@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SysJumpScreen : Screen
 {
+    private Screen scr;
+
     private SysJumpHandler sysJumpHandler;
 
     public GameObject jumpingScreen;
@@ -37,6 +39,8 @@ public class SysJumpScreen : Screen
 
     private void Awake()
     {
+        scr = gameObject.AddComponent<Screen>();
+
         cursorRect = cursor.GetComponent<RectTransform>();
         cursorScript = cursor.GetComponent<CursorHandler>();
 
@@ -44,7 +48,7 @@ public class SysJumpScreen : Screen
         buttonColDef = buttonBackground.color;
     }
 
-    bool changingColor = false;
+    //bool changingColor = false;
     private void Update()
     {
         if (cursorScript.active)
@@ -53,7 +57,7 @@ public class SysJumpScreen : Screen
 
             if (Screen.IsHovering(buttonRect, cursorPos))
             {
-                if (!changingColor)
+                if (!scr.changingColor)
                 {
                     buttonBackground.color = buttonColHover;
 
@@ -62,9 +66,9 @@ public class SysJumpScreen : Screen
                         StopAllCoroutines();
 
                         if (sysJumpHandler.Jump())
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClick, buttonColDef));
+                            scr.ChangeColor(buttonBackground, buttonColClick, buttonColDef);
                         else
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColInvalid, buttonColDef));
+                            scr.ChangeColor(buttonBackground, buttonColInvalid, buttonColDef);
                     }
                 }
             }
@@ -92,18 +96,7 @@ public class SysJumpScreen : Screen
         jumping = !jumping;
     }
 
-    private IEnumerator ChangeButtonColor(Image image, Color colorCh, Color colorDef)
-    {
-        changingColor = true;
 
-        image.color = colorCh;
-
-        yield return new WaitForSeconds(buttonColorDelay);
-
-        image.color = colorDef;
-
-        changingColor = false;
-    }
 
     public void RefreshScreen()
     {

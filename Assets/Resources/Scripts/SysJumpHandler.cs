@@ -5,15 +5,16 @@ using System.Dynamic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static World;
 
 public class SystemFlight : Flight
 {
-    public SystemFlight(World.Sys destSys, float distance) : base(distance, Ship.sysJumpTopSpeed, Ship.sysJumpAcceleration, Ship.sysFuelEfficency) //Constructor
+    public SystemFlight(Sys destSys, float distance) : base(distance, Ship.sysJumpTopSpeed, Ship.sysJumpAcceleration, Ship.sysFuelEfficency) //Constructor
     {
         this.destSys = destSys;
     }
 
-    public World.Sys destSys { get; private set; }
+    public Sys destSys { get; private set; }
 }
 
 public class SysJumpHandler : MonoBehaviour
@@ -66,9 +67,9 @@ public class SysJumpHandler : MonoBehaviour
     }
 
     
-    public static SystemFlight GenerateFlight(World.Sys sys)
+    public static SystemFlight GenerateFlight(Sys sys)
     {
-        Vector2 distVec = sys.GlobalPos() - World.GetSystem().GlobalPos();
+        Vector2 distVec = sys.GlobalPos() - GetSystem().GlobalPos();
         float distance = Mathf.Abs(distVec.x) + Mathf.Abs(distVec.y);
 
         return new SystemFlight(sys, distance);
@@ -83,11 +84,11 @@ public class SysJumpHandler : MonoBehaviour
     {
         if (currFlight != null)
         {
-            if (currFlight.possible && currFlight.destSys.cellCoords != World.GetSystem().cellCoords)
+            if (currFlight.possible && currFlight.destSys.cellCoords != GetSystem().cellCoords)
             {
                 Ship.ChangeFuel(-currFlight.fuel);
 
-                World.SetSystem(currFlight.destSys.cellCoords);
+                SetSystem(currFlight.destSys.cellCoords);
 
                 jumpScreen.ToggleScreens();
                 StartCoroutine(Jumping());

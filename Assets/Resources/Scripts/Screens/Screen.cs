@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Screen : MonoBehaviour
 {
-    protected Color buttonColHover;
-    protected Color buttonColClick;
-    protected Color buttonColInvalid;
-    protected float buttonColorDelay;
+    protected static Color buttonColHover;
+    protected static Color buttonColClick;
+    protected static Color buttonColInvalid;
+    private static float buttonColorDelay;
 
+    
     private void Awake()
     {
-        buttonColHover = new Color { r = 0, g = 255, b = 0, a = 0.3f };
-        buttonColClick = new Color { r = 255, g = 255, b = 255, a = 0.3f };
-        buttonColInvalid = new Color { r = 255, g = 0, b = 0, a = 0.3f };
+        buttonColHover = new Color(1, 1, 1, 0.3f);
+        buttonColClick = new Color(0, 1, 0, 0.3f);
+        buttonColInvalid = new Color(1, 0, 0, 0.3f);
         buttonColorDelay = 0.2f;
     }
 
@@ -44,5 +46,24 @@ public class Screen : MonoBehaviour
     {
         rect.offsetMin = new Vector2(0, 0);
         rect.offsetMax = new Vector2(0, 0);
+    }
+
+    public bool changingColor = false;
+    public void ChangeColor(Image image, Color colorCh, Color colorDef)
+    {
+        StartCoroutine(ChangingColor(image, colorCh, colorDef));
+    }
+
+    private IEnumerator ChangingColor(Image image, Color colorCh, Color colorDef)
+    {
+        changingColor = true;
+
+        image.color = colorCh;
+
+        yield return new WaitForSeconds(buttonColorDelay);
+
+        image.color = colorDef;
+
+        changingColor = false;
     }
 }

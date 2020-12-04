@@ -2,15 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static World;
+using static PlanetJumpHandler;
+using static Ship;
 
 public class PlanetFlight : Flight
 {
-    public PlanetFlight(PlanetJumpHandler.SysObj destObj, float distance) : base(distance, Ship.planetJumpTopSpeed, Ship.planetJumpAcceleration, Ship.planetFuelEfficency) //Constructor
+    public PlanetFlight(SysObj destObj, float distance) : base(distance, planetJumpTopSpeed, planetJumpAcceleration, planetFuelEfficency) //Constructor
     {
         this.destObj = destObj;
     }
 
-    public PlanetJumpHandler.SysObj destObj;
+    public SysObj destObj;
 }
 
 public class PlanetJumpHandler : MonoBehaviour
@@ -30,7 +33,7 @@ public class PlanetJumpHandler : MonoBehaviour
         public float orbit;
         public int id;
 
-        public SysObj(World.PlanetObj planet)
+        public SysObj(PlanetObj planet)
         {
             name = planet.name;
             type = planet.type;
@@ -39,7 +42,7 @@ public class PlanetJumpHandler : MonoBehaviour
             id = planet.id;
         }
 
-        public SysObj(World.StarObj star)
+        public SysObj(StarObj star)
         {
             name = star.name;
             type = star.type;
@@ -75,10 +78,10 @@ public class PlanetJumpHandler : MonoBehaviour
     {
         sysObjects = new List<SysObj>();
 
-        World.Sys sys = World.GetSystem();
+        Sys sys = GetSystem();
 
         sysObjects.Add(new SysObj(sys.star));
-        foreach(World.PlanetObj planet in sys.planets)
+        foreach(PlanetObj planet in sys.planets)
         {
             sysObjects.Add(new SysObj(planet));
         }
