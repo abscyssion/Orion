@@ -21,18 +21,35 @@ public class Screen : MonoBehaviour
 
     protected static bool IsHovering(RectTransform hoverRect, Vector2 cursorPos)
     {
-        Vector2 hoverPos = hoverRect.anchoredPosition;
-        Vector2 hoverSize = hoverRect.sizeDelta;
+        if (hoverRect.anchorMin == hoverRect.anchorMax && hoverRect.anchorMax == hoverRect.pivot)
+        {
+            Vector2 hoverPos = hoverRect.anchoredPosition;
+            Vector2 hoverSize = hoverRect.sizeDelta;
 
-        //Points
-        Vector2 hoverMin = hoverPos;
-        Vector2 hoverMax = hoverPos + hoverSize;
+            //Points
+            Vector2 hoverMin = hoverPos;
+            Vector2 hoverMax = hoverPos + hoverSize;
 
-        if (cursorPos.x > hoverMin.x && cursorPos.y > hoverMin.y && cursorPos.x < hoverMax.x && cursorPos.y < hoverMax.y)
-            return true;
+            if (cursorPos.x > hoverMin.x && cursorPos.y > hoverMin.y && cursorPos.x < hoverMax.x && cursorPos.y < hoverMax.y)
+                return true;
+            else
+                return false;
+        }
         else
+        {
+            Debug.LogWarning("Error with IsHovering function. All anchors and the pivot must be the same.");
             return false;
+        }
     }
+
+/*    protected static void ConvertToZeroAnchor(RectTransform rect)
+    {
+        Vector2 localPosPre = rect.localPosition;
+        rect.anchorMax = new Vector2(0, 0);
+        rect.anchorMin = new Vector2(0, 0);
+        rect.pivot = new Vector2(0, 0);
+        rect.localPosition = localPosPre - new Vector2(rect.sizeDelta.x / 2, 0);
+    }*/
 
     protected static void RefreshRect(RectTransform rect)
     {

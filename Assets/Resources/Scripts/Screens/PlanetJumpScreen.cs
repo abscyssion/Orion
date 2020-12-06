@@ -16,7 +16,8 @@ public class PlanetJumpScreen : Screen
         private RectTransform cursorRect;
         private CursorHandler cursorScript;
 
-    public RectTransform parentRect;
+    public GameObject parentObj;
+    public RectTransform virtParentRect;
 
     public Sprite boxTexture;
 
@@ -26,7 +27,8 @@ public class PlanetJumpScreen : Screen
 
     public TMP_FontAsset font;
 
-    private Color selectColor = Color.yellow;
+    private Color outlineDefColor = Color.white;
+    private Color outlineSelColor = Color.yellow;  
 
     private List<RectTransform> outlineRects;
     private List<Image> outlineImages;
@@ -52,8 +54,12 @@ public class PlanetJumpScreen : Screen
         {
             Vector2 cursorPos = cursorRect.anchoredPosition;
 
-            if (Screen.IsHovering(buttonRect, cursorPos))
+            
+
+            if (IsHovering(buttonRect, cursorPos))
             {
+              
+
                 if (!scr.changingColor)
                 {
                     buttonBackground.color = buttonColHover;
@@ -62,10 +68,10 @@ public class PlanetJumpScreen : Screen
                     {
                         StopAllCoroutines();
 
-/*                        if (sysJumpHandler.Jump())
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColClick, buttonColDef));
+                        if (true)
+                            scr.ChangeColor(buttonBackground, buttonColClick, buttonColDef);
                         else
-                            StartCoroutine(ChangeButtonColor(buttonBackground, buttonColInvalid, buttonColDef));*/
+                            scr.ChangeColor(buttonBackground, buttonColInvalid, buttonColDef);
                     }
                 }
             }
@@ -74,16 +80,19 @@ public class PlanetJumpScreen : Screen
                 buttonBackground.color = buttonColDef;
 
                 int i = 0;
-                foreach(RectTransform rect in outlineRects)
-                { 
-                    if(Screen.IsHovering(rect, cursorPos))
+                foreach (RectTransform rect in outlineRects)
+                {
+                    if (Screen.IsHovering(rect, cursorPos))
                     {
+                        outlineImages[i].color = outlineSelColor;
                         break;
                     }
+                    else
+                        outlineImages[i].color = outlineDefColor;
 
                     i++;
                 }
-                
+
             }
         }
     }
@@ -91,7 +100,9 @@ public class PlanetJumpScreen : Screen
     private void DrawBars()
     {
         const float paddingPerc = 0.05f;
-        Vector2 parentDiam = parentRect.sizeDelta;
+
+        Vector2 parentDiam = virtParentRect.sizeDelta;// new Vector2(450, 365);
+        Vector2 parentPos = virtParentRect.anchoredPosition;// new Vector2(25, 110);
 
         List<PlanetJumpHandler.SysObj> sysObjs = PlanetJumpHandler.GetSysObjects();
 
@@ -107,19 +118,20 @@ public class PlanetJumpScreen : Screen
             #region Parent
 
             GameObject obj = new GameObject(sysObj.type + " Bar");
-            obj.transform.SetParent(parentRect.transform);
+            obj.transform.SetParent(parentObj.transform);
 
             RectTransform rect = obj.AddComponent<RectTransform>();
             Screen.RefreshRect(rect);
-            rect.anchorMin = new Vector2(0.5f, 1);
-            rect.anchorMax = new Vector2(0.5f, 1);
-            rect.pivot = new Vector2(0.5f, 1);
+            rect.anchorMin = new Vector2(0, 0);
+            rect.anchorMax = new Vector2(0, 0);
+            rect.pivot = new Vector2(0, 0);
             rect.sizeDelta = new Vector2(parentDiam.x, spacePerObj - padding);
-            rect.anchoredPosition = new Vector2(0, (spacePerObj + padding) * -i);
+            rect.anchoredPosition = new Vector2(0, (spacePerObj + padding) * (sysObjs.Count - 1 - i)) + parentPos;
 
             Image img = obj.AddComponent<Image>();
             img.sprite = boxTexture;
             img.type = Image.Type.Sliced;
+            img.color = outlineDefColor;
 
             outlineRects.Add(rect);
             outlineImages.Add(img);
