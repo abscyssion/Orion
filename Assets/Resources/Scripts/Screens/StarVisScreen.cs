@@ -19,8 +19,8 @@ public class StarVisScreen : Screen
     
     private World world;
 
-    public GameObject infoScreen;
-    public GameObject mainScreen;
+    [SerializeField] private GameObject onScreen;
+    [SerializeField] private GameObject offScreen;
 
     public RectTransform canvasRect;
     public Transform systemParent;
@@ -240,10 +240,10 @@ public class StarVisScreen : Screen
     }
 
 
-    public void ChangeScreen(bool turnOn)
+    public void ChangeScreen(bool onScr)
     {
-        mainScreen.SetActive(turnOn);
-        infoScreen.SetActive(!turnOn);
+        onScreen.SetActive(onScr);
+        offScreen.SetActive(!onScr);
     }
 
     private IEnumerator FadeInVis()

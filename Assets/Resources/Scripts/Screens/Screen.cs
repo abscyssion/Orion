@@ -5,14 +5,23 @@ using UnityEngine.UI;
 
 public class Screen : MonoBehaviour
 {
+    private static StarVisScreen starVisScreen;
+    private static StarScanScreen starScanScreen;
+    private static SysJumpScreen sysJumpScreen;
+    private static   PlanetJumpScreen planetJumpScreen;
+
     protected static Color buttonColHover;
     protected static Color buttonColClick;
     protected static Color buttonColInvalid;
     private static float buttonColorDelay;
-
     
     private void Awake()
     {
+        starVisScreen = GameObject.Find("Star Visualisation Screen").GetComponent<StarVisScreen>();
+        starScanScreen = GameObject.Find("Star Scan Screen").GetComponent<StarScanScreen>();
+        sysJumpScreen = GameObject.Find("System Jump Screen").GetComponent<SysJumpScreen>();
+        planetJumpScreen = GameObject.Find("Planet Jump Screen").GetComponent<PlanetJumpScreen>();
+
         buttonColHover = new Color(1, 1, 1, 0.3f);
         buttonColClick = new Color(0, 1, 0, 0.3f);
         buttonColInvalid = new Color(1, 0, 0, 0.3f);
@@ -50,6 +59,14 @@ public class Screen : MonoBehaviour
         rect.pivot = new Vector2(0, 0);
         rect.localPosition = localPosPre - new Vector2(rect.sizeDelta.x / 2, 0);
     }*/
+
+    public static void ChangeScreensAll(bool onScreen)
+    {
+        starVisScreen.ChangeScreen(onScreen);
+        starScanScreen.ChangeScreen(onScreen);
+        sysJumpScreen.ChangeScreen(onScreen);
+        planetJumpScreen.ChangeScreen(onScreen);
+    }
 
     protected static void RefreshRect(RectTransform rect)
     {

@@ -12,6 +12,7 @@ public class SystemFlight : Flight
     public SystemFlight(Sys destSys, float distance) : base(distance, Ship.sysJumpTopSpeed, Ship.sysJumpAcceleration, Ship.sysFuelEfficency) //Constructor
     {
         this.destSys = destSys;
+        this.possible = possible && destSys != GetSystem();
     }
 
     public Sys destSys { get; private set; }
@@ -64,9 +65,11 @@ public class SysJumpHandler : MonoBehaviour
         warpParticles.gameObject.SetActive(false);   
 
         starScanScreen = GameObject.Find("Star Scan Screen").GetComponent<StarScanScreen>();
-    }
 
-    
+        SetText(true, "NOW VISITING:");
+        SetText(false, World.GetSystem().name);
+    }
+   
     public static SystemFlight GenerateFlight(Sys sys)
     {
         Vector2 distVec = sys.GlobalPos() - GetSystem().GlobalPos();
@@ -84,13 +87,13 @@ public class SysJumpHandler : MonoBehaviour
     {
         if (currFlight != null)
         {
-            if (currFlight.possible && currFlight.destSys.cellCoords != GetSystem().cellCoords)
+            if (currFlight.possible)
             {
                 Ship.ChangeFuel(-currFlight.fuel);
 
                 SetSystem(currFlight.destSys.cellCoords);
 
-                jumpScreen.ToggleScreens();
+                Screen.ChangeScreensAll(false);
                 StartCoroutine(Jumping());
 
                 SetText(false, currFlight.destSys.name);
@@ -108,14 +111,14 @@ public class SysJumpHandler : MonoBehaviour
 
     private IEnumerator Jumping()
     {
-        Vector2 shipEndMapPos = MapScreen.GetSystemPos(currFlight.destSys.cellCoords);
+        //Vector2 shipEndMapPos = MapScreen.GetSystemPos(currFlight.destSys.cellCoords);
 
         Flight.jumping = true;
 
         warpParticles.gameObject.SetActive(true);
 
-        shipSpinImage.enabled = true;
-        shipAnim.SetTrigger("Start");
+/*        shipSpinImage.enabled = true;
+        shipAnim.SetTrigger("Start");*/
 
         const float delay = 0.01f;
 
@@ -127,7 +130,7 @@ public class SysJumpHandler : MonoBehaviour
 
         float jumpDist = currFlight.distance;
 
-        Vector2 shipStartMapPos = shipCursor.anchoredPosition;
+        /*Vector2 shipStartMapPos = shipCursor.anchoredPosition;*/
 
         float jumpTimeLeft = timeTotal;
         float jumpTime = 0f;
@@ -158,13 +161,13 @@ public class SysJumpHandler : MonoBehaviour
 
             jumpVelPerc = jumpVelCurr / jumpVelPeak;
 
-            Vector2 shipCursorPos = new Vector2
+/*            Vector2 shipCursorPos = new Vector2
             {
                 x = Mathf.Lerp(shipStartMapPos.x, shipEndMapPos.x, flightPerc),
                 y = Mathf.Lerp(shipStartMapPos.y, shipEndMapPos.y, flightPerc)
-            };
+            };*/
 
-            shipCursor.anchoredPosition = shipCursorPos;
+            //shipCursor.anchoredPosition = shipCursorPos;
 
             SetMuzzleLength(jumpVelPerc);
             SetWarpParticles(jumpVelPerc);
@@ -179,7 +182,7 @@ public class SysJumpHandler : MonoBehaviour
 
         Flight.jumping = false;
 
-        jumpScreen.ToggleScreens();
+        Screen.ChangeScreensAll(true);
         jumpScreen.RefreshScreen();
 
         SetText(true, "DEST. REACHED:");

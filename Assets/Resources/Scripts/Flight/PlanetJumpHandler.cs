@@ -11,6 +11,7 @@ public class PlanetFlight : Flight
     public PlanetFlight(SysObj destObj, float distance) : base(distance, planetJumpTopSpeed, planetJumpAcceleration, planetFuelEfficency) //Constructor
     {
         this.destObj = destObj;
+        this.possible = possible && destObj != GetSysObj(); //Check if the dest obj isn't the current one.
     }
 
     public SysObj destObj;
@@ -72,6 +73,11 @@ public class PlanetJumpHandler : MonoBehaviour
         sysObjId = 0;
 
         ResetSysObjects();
+    }
+
+    public static void Jump()
+    {
+
     }
 
     public static void ResetSysObjects()

@@ -25,7 +25,7 @@ public class Ship : MonoBehaviour
         fuel = maxFuel;
 
         sysFuelEfficency = 0.8f;
-        planetFuelEfficency = 0.5f;
+        planetFuelEfficency = 0.7f;
 
         sysJumpAcceleration = 0.2f;
         sysJumpTopSpeed = 1f;

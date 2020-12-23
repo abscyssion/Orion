@@ -8,6 +8,9 @@ public class StarScanScreen : Screen
 {
     private Screen scr;
 
+    [SerializeField] private GameObject onScreen;
+    [SerializeField] private GameObject offScreen;
+
     public GameObject cursor;
         private RectTransform cursorRect;
         private CursorHandler cursorScript;
@@ -81,9 +84,15 @@ public class StarScanScreen : Screen
         }
     }
 
+    public void ChangeScreen(bool onScr)
+    {
+        onScreen.SetActive(onScr);
+        offScreen.SetActive(!onScr);
+    }
+
     private bool Scan()
     {
-        if (!systemScanned && !systemScanning && !Flight.jumping)
+        if (!systemScanned && !systemScanning)
         {
             StartCoroutine(Scanning(Ship.scannerEff));
             return true;
@@ -138,7 +147,6 @@ public class StarScanScreen : Screen
     {
         StartCoroutine(Writing(text, tmp));
     }
-
     private IEnumerator Writing(string text, TextMeshProUGUI tmp)
     {
         const float delay = 0.05f;

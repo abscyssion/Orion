@@ -69,10 +69,11 @@
     <Compile Include="Assets\Resources\Scripts\Console\TextHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Console\TypingSounds.cs" />
     <Compile Include="Assets\Resources\Scripts\CursorHandler.cs" />
-    <Compile Include="Assets\Resources\Scripts\FlightHandler.cs" />
+    <Compile Include="Assets\Resources\Scripts\Flight\FlightHandler.cs" />
+    <Compile Include="Assets\Resources\Scripts\Flight\PlanetJumpHandler.cs" />
+    <Compile Include="Assets\Resources\Scripts\Flight\SysJumpHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\MovementSounds.cs" />
     <Compile Include="Assets\Resources\Scripts\MovingDoors.cs" />
-    <Compile Include="Assets\Resources\Scripts\PlanetJumpHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Player Control\PlayerLook.cs" />
     <Compile Include="Assets\Resources\Scripts\Player Control\PlayerMove.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\MapScreen.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Assets\Resources\Scripts\Screens\SysJumpScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Screens\SysNavScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Ship.cs" />
-    <Compile Include="Assets\Resources\Scripts\SysJumpHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\World.cs" />
     <None Include="Assets\Resources\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\Resources\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />

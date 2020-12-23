@@ -10,9 +10,9 @@ public class SysJumpScreen : Screen
 
     private SysJumpHandler sysJumpHandler;
 
-    public GameObject jumpingScreen;
+    public GameObject onScreen;
+    public GameObject offScreen;
 
-    public GameObject infoScreen;
     public GameObject infoSubScreen;
     public GameObject currVisSubScreen;
 
@@ -48,7 +48,6 @@ public class SysJumpScreen : Screen
         buttonColDef = buttonBackground.color;
     }
 
-    //bool changingColor = false;
     private void Update()
     {
         if (cursorScript.active)
@@ -79,21 +78,10 @@ public class SysJumpScreen : Screen
         }
     }
 
-    bool jumping = false;
-    public void ToggleScreens()
+    public void ChangeScreen(bool onScr)
     {
-        if(!jumping)
-        {
-            jumpingScreen.SetActive(true);
-            infoScreen.SetActive(false);
-        }
-        else
-        {
-            jumpingScreen.SetActive(false);
-            infoScreen.SetActive(true);
-        }
-
-        jumping = !jumping;
+        onScreen.SetActive(onScr);
+        offScreen.SetActive(!onScr);
     }
 
 

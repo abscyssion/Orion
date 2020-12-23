@@ -9,8 +9,8 @@ public class PlanetJumpScreen : Screen
 {
     private Screen scr;
 
-    public GameObject infoScreen;
-    public GameObject jumpingScreen;
+    public GameObject onScreen;
+    public GameObject offScreen;
 
     public GameObject cursor;
         private RectTransform cursorRect;
@@ -27,13 +27,15 @@ public class PlanetJumpScreen : Screen
 
     public TMP_FontAsset font;
 
-    private Color outlineDefColor = Color.white;
-    private Color outlineSelColor = Color.yellow;  
+    private Color outlineDefColor = Color.grey;
+    private Color outlineSelColor = Color.white;
+    private Color outlineLockColor = Color.yellow;
+
+    private bool locked = false;
+    private int lockedID = 0;
 
     private List<RectTransform> outlineRects;
     private List<Image> outlineImages;
-
-    private SysObj destObj;
 
     private void Awake()
     {
@@ -54,12 +56,8 @@ public class PlanetJumpScreen : Screen
         {
             Vector2 cursorPos = cursorRect.anchoredPosition;
 
-            
-
             if (IsHovering(buttonRect, cursorPos))
             {
-              
-
                 if (!scr.changingColor)
                 {
                     buttonBackground.color = buttonColHover;
@@ -68,7 +66,7 @@ public class PlanetJumpScreen : Screen
                     {
                         StopAllCoroutines();
 
-                        if (true)
+                        if (currFlight.possible)
                             scr.ChangeColor(buttonBackground, buttonColClick, buttonColDef);
                         else
                             scr.ChangeColor(buttonBackground, buttonColInvalid, buttonColDef);
@@ -82,19 +80,37 @@ public class PlanetJumpScreen : Screen
                 int i = 0;
                 foreach (RectTransform rect in outlineRects)
                 {
-                    if (Screen.IsHovering(rect, cursorPos))
+                    if (locked && i == lockedID)
                     {
-                        outlineImages[i].color = outlineSelColor;
-                        break;
+                        outlineImages[i].color = outlineLockColor;
                     }
                     else
-                        outlineImages[i].color = outlineDefColor;
+                    {
+                        if (Screen.IsHovering(rect, cursorPos))
+                        {
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                locked = true;
+                                lockedID = i;
+                                SetFlight(GenerateFlight(GetSysObj(lockedID)));
+                            }
 
+                            outlineImages[i].color = outlineSelColor;
+                            break;
+                        }
+                        else
+                            outlineImages[i].color = outlineDefColor;
+                    }
                     i++;
                 }
 
             }
         }
+    }
+    public void ChangeScreen(bool onScr)
+    {
+        onScreen.SetActive(onScr);
+        offScreen.SetActive(!onScr);
     }
 
     private void DrawBars()
@@ -138,6 +154,9 @@ public class PlanetJumpScreen : Screen
 
             #endregion
 
+            Vector2 textSize = new Vector2(0, rect.sizeDelta.y / 2);
+            float textPadding = textSize.y * 0.13f;
+
             #region Top text
 
             string topString = "<color=yellow>'" + sysObj.name + "'</color>, " + sysObj.type;
@@ -154,14 +173,15 @@ public class PlanetJumpScreen : Screen
 
             TextMeshProUGUI topText = topObj.AddComponent<TextMeshProUGUI>();
             topText.fontStyle = FontStyles.Bold;
-            topText.alignment = TextAlignmentOptions.BottomGeoAligned;
+            topText.alignment = TextAlignmentOptions.Center;
+            topText.margin = new Vector4(0, textPadding, 0, 0);
             topText.overflowMode = TextOverflowModes.Ellipsis;
             topText.font = font;
             topText.fontSize = topRect.sizeDelta.y * topFontPerc;
             topText.text = topString;
             
             Screen.RefreshRectOffset(topRect);
-            topRect.sizeDelta = new Vector2(0, rect.sizeDelta.y / 2);
+            topRect.sizeDelta = textSize;
 
             #endregion
 
@@ -171,7 +191,7 @@ public class PlanetJumpScreen : Screen
             if (flight.distance > 0)
                 botString = flight.details.distance + " AU from you, " + flight.details.fuel + " fuel.";
             else
-                botString = "You are here.";
+                botString = "<u>You are here.</u>";
 
             const float botFontPerc = 0.5f;
             GameObject botObj = new GameObject("Bot");
@@ -184,14 +204,15 @@ public class PlanetJumpScreen : Screen
             botRect.pivot = new Vector2(0.5f, 0);
 
             TextMeshProUGUI botText = botObj.AddComponent<TextMeshProUGUI>();
-            botText.alignment = TextAlignmentOptions.TopGeoAligned;
+            botText.alignment = TextAlignmentOptions.Center;
+            botText.margin = new Vector4(0, 0, 0, textPadding);
             botText.overflowMode = TextOverflowModes.Ellipsis;
             botText.font = font;
             botText.fontSize = botRect.sizeDelta.y * botFontPerc;
             botText.text = botString;
 
             Screen.RefreshRectOffset(botRect);
-            botRect.sizeDelta = new Vector2(0, rect.sizeDelta.y / 2);
+            botRect.sizeDelta = textSize;
 
             #endregion
 
