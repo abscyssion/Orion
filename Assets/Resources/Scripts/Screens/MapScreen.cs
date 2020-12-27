@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static World;
+using static SysJumpHandler;
 
 public class MapScreen : Screen
 {
@@ -48,8 +50,6 @@ public class MapScreen : Screen
     {
         scr = gameObject.AddComponent<Screen>();
 
-        Vector2Int mapSize = World.mapSize;
-
         cursorTopRect = cursorTop.GetComponent<RectTransform>();
         cursorTopScript = cursorTop.GetComponent<CursorHandler>();
 
@@ -71,9 +71,9 @@ public class MapScreen : Screen
 
         GenerateMap();
 
-        DisplaySystemName(World.GetSystem());
+        DisplaySystemName(GetLocation().sys);
 
-        Vector2Int starCell = World.GetSystem().cellCoords;
+        Vector2Int starCell = GetLocation().sys.cellCoords;
         Vector2 starPos = starCell * cellSize + starRects[starCell.x, starCell.y].anchoredPosition;
 
         shipCursorRect.anchoredPosition = starPos;
@@ -155,9 +155,9 @@ public class MapScreen : Screen
     {
         if (!Flight.jumping)
         {
-            World.Sys destSys = World.GetSystem(cursorCell);
+            Sys destSys = GetSystem(cursorCell);
 
-            SysJumpHandler.SetFlight(SysJumpHandler.GenerateFlight(destSys));
+            SetFlight(new Flight(new Location(destSys)));
             DisplaySystemName(destSys);
             sysJumpScreen.RefreshScreen();
 
@@ -167,7 +167,7 @@ public class MapScreen : Screen
     }
 
     private bool displayingSystemName = false;
-    private void DisplaySystemName(World.Sys sys)
+    private void DisplaySystemName(Sys sys)
     {
         string str = sys.name + " [" + (sys.cellCoords.x + 1) + ", " + (sys.cellCoords.y + 1) + "]";
 
@@ -195,18 +195,18 @@ public class MapScreen : Screen
 
     private void GenerateMap()
     {
-        GameObject[,] mapStars = new GameObject[World.mapSize.x, World.mapSize.y];
+        GameObject[,] mapStars = new GameObject[mapSize.x, mapSize.y];
 
         Vector3 starContainerPos = new Vector3(0, 0, 0);
-        for (int x = 0; x <= World.mapSize.x - 1; x++)
+        for (int x = 0; x <= mapSize.x - 1; x++)
         {
             starContainerPos.x = cellSize.x * x;
 
-            for (int y = 0; y <= World.mapSize.y - 1; y++)
+            for (int y = 0; y <= mapSize.y - 1; y++)
             {
                 starContainerPos.y = cellSize.y * y;
 
-                float systemSec = World.GetSystem(new Vector2Int(x, y)).security;
+                float systemSec = GetSystem(new Vector2Int(x, y)).security;
 
                 GameObject starContainer = GenerateStarContainer(x, y, starContainerPos, systemSec);
                 starContainersImg[x, y] = starContainer.GetComponent<Image>();
@@ -231,7 +231,7 @@ public class MapScreen : Screen
 
         starRects[x, y] = starRect;
 
-        Vector2 systemCoords = World.GetSystem(new Vector2Int(x, y)).localCoords;
+        Vector2 systemCoords = GetSystem(new Vector2Int(x, y)).localCoords;
 
         Vector2 localCoords = new Vector2
         {
@@ -241,8 +241,8 @@ public class MapScreen : Screen
 
         Vector2 cellMultiplier = new Vector2
         {
-            x = cellSize.x / World.cellSize.x,
-            y = cellSize.y / World.cellSize.y
+            x = cellSize.x / cellSize.x,
+            y = cellSize.y / cellSize.y
         };
 
         Vector2 starPos = new Vector2
@@ -262,7 +262,7 @@ public class MapScreen : Screen
         star.AddComponent<CanvasRenderer>();
         Image starImage = star.AddComponent<Image>();
 
-        starImage.sprite = World.GetSystem(new Vector2Int(x, y)).star.sprite;
+        starImage.sprite = GetSystem(new Vector2Int(x, y)).star.sprite;
 
         return star;
     }
@@ -290,12 +290,11 @@ public class MapScreen : Screen
     }
 
     bool secDisplayToggled = false;
-
     private void ToggleSecDisplay()
     {
-        for (int x = 0; x <= World.mapSize.x - 1; x++)
+        for (int x = 0; x <= mapSize.x - 1; x++)
         {
-            for (int y = 0; y <= World.mapSize.y - 1; y++)
+            for (int y = 0; y <= mapSize.y - 1; y++)
             {
                 starContainersImg[x, y].enabled = !secDisplayToggled;
             }

@@ -42,7 +42,7 @@ public class StarVisScreen : Screen
 
         imagesAll = new List<Image>();
 
-/*        DrawVisualisations(World.GetSystem());
+/*        DrawVisualisations(World.GetLocation().sys);
         ChangeScreen();*/
     }
 
@@ -80,7 +80,7 @@ public class StarVisScreen : Screen
 
         #region Init
         //Star
-        World.StarObj starObj = sys.star;
+        World.Star starObj = sys.star;
 
         star.type = starObj.type;
         star.id = starObj.id;
@@ -89,7 +89,7 @@ public class StarVisScreen : Screen
         star.size = starObj.visSize;
 
         //Planets
-        foreach(World.PlanetObj planet in sys.planets)
+        foreach(World.Planet planet in sys.planets)
         {
             Sprite sprite;
             if (!planet.field)
@@ -147,7 +147,7 @@ public class StarVisScreen : Screen
         for(int i = 0; i <= planets.Count - 1; i++)
         {
             VisImage planetVis = planets[i];
-            World.PlanetObj planet = World.GetSystem().planets[i];
+            World.Planet planet = World.GetLocation().sys.planets[i];
 
             if (!planetVis.field)
                 planetVis.size = planet.visSize;

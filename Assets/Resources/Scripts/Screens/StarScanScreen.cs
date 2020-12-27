@@ -122,10 +122,10 @@ public class StarScanScreen : Screen
             yield return new WaitForSeconds(0.01f);
         }
 
-        starVisScreen.DrawVisualisations(World.GetSystem());
+        starVisScreen.DrawVisualisations(World.GetLocation().sys);
         starVisScreen.ChangeScreen(true);   
 
-        World.StarObj currStar = World.GetSystem().star;
+        World.Star currStar = World.GetLocation().sys.star;
 
         topContainer.SetActive(true);
         topOutline.enabled = false;

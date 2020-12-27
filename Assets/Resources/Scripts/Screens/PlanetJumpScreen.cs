@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static World;
 using static PlanetJumpHandler;
+
 
 public class PlanetJumpScreen : Screen
 {
+    public PlanetJumpHandler planetJumpHandler;
+
     private Screen scr;
 
     public GameObject onScreen;
@@ -67,7 +71,10 @@ public class PlanetJumpScreen : Screen
                         StopAllCoroutines();
 
                         if (currFlight.possible)
+                        {
                             scr.ChangeColor(buttonBackground, buttonColClick, buttonColDef);
+                            planetJumpHandler.Jump();
+                        }
                         else
                             scr.ChangeColor(buttonBackground, buttonColInvalid, buttonColDef);
                     }
@@ -92,7 +99,7 @@ public class PlanetJumpScreen : Screen
                             {
                                 locked = true;
                                 lockedID = i;
-                                SetFlight(GenerateFlight(GetSysObj(lockedID)));
+                                SetFlight(new Flight(new Location(GetLocation().sys.GetSysObjs()[i])));
                             }
 
                             outlineImages[i].color = outlineSelColor;
@@ -120,7 +127,7 @@ public class PlanetJumpScreen : Screen
         Vector2 parentDiam = virtParentRect.sizeDelta;// new Vector2(450, 365);
         Vector2 parentPos = virtParentRect.anchoredPosition;// new Vector2(25, 110);
 
-        List<PlanetJumpHandler.SysObj> sysObjs = PlanetJumpHandler.GetSysObjects();
+        List<SysObj> sysObjs = GetLocation().sys.GetSysObjs();
 
         float spacePerObj = parentDiam.y / sysObjs.Count;
         float padding = spacePerObj * paddingPerc;
@@ -129,7 +136,7 @@ public class PlanetJumpScreen : Screen
         outlineImages = new List<Image>();
 
         int i = 0;
-        foreach(PlanetJumpHandler.SysObj sysObj in sysObjs)
+        foreach(SysObj sysObj in sysObjs)
         {
             #region Parent
 
@@ -186,10 +193,10 @@ public class PlanetJumpScreen : Screen
             #endregion
 
             #region Bottom text
-            PlanetFlight flight = PlanetJumpHandler.GenerateFlight(sysObj);
+            Flight flight = new Flight(new Location(sysObj));
             string botString;
             if (flight.distance > 0)
-                botString = flight.details.distance + " AU from you, " + flight.details.fuel + " fuel.";
+                botString = flight.details.distance + " PU from you, " + flight.details.fuel + " fuel.";
             else
                 botString = "<u>You are here.</u>";
 

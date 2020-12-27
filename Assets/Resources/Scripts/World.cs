@@ -9,8 +9,8 @@ public class World : MonoBehaviour
 {
     private const string mainDir = @"Assets/Resources/Scripts Content";
 
-    public Star[] starsAll = null;
-    public Planet[] planetsAll = null;
+    public StarType[] starsAll = null;
+    public PlanetType[] planetsAll = null;
 
     public static Vector2Int mapSize = new Vector2Int(10, 10);
 
@@ -23,6 +23,9 @@ public class World : MonoBehaviour
     private static Sys[,] systems;
 
     public static Vector2Int currSysId { get; private set; }
+
+    private static Location locationCurr;
+
     public static int currSysObjId { get; private set; } // 0 - the star
 
     public class Sys
@@ -33,9 +36,23 @@ public class World : MonoBehaviour
         public Vector2 localCoords;
         public Vector2Int cellCoords;
 
-        public StarObj star;
-        public List<PlanetObj> planets;
+        public Star star;
+        public List<Planet> planets;
     
+
+        public List<SysObj> GetSysObjs()
+        {
+            List<SysObj> sysObjs = new List<SysObj>();
+
+            sysObjs.Add(new SysObj(star));
+            foreach(Planet planet in planets)
+            {
+                sysObjs.Add(new SysObj(planet));
+            }
+
+            return sysObjs;
+        }
+
         public Vector2 GlobalPos()
         {
             Vector2 globalPos = (cellCoords * cellSize) + localCoords;
@@ -62,9 +79,43 @@ public class World : MonoBehaviour
         }
     }
 
-    public class StarObj : Star
+    public class SysObj
     {
-        public StarObj(Star star)
+        public string name; //Given name of the star, planet;
+        public string type;
+        public string description;
+
+        /*
+         * bool canMine;
+         * bool canGasExcavate;
+         * 
+         */
+
+        public float orbit;
+        public int id;
+
+        public SysObj(Planet planet)
+        {
+            name = planet.name;
+            type = planet.type;
+            description = planet.description;
+            orbit = planet.orbit;
+            id = planet.id;
+        }
+
+        public SysObj(Star star)
+        {
+            name = star.name;
+            type = star.type;
+            description = star.description;
+            orbit = 0;
+            id = 0;
+        }
+    }
+
+    public class Star : StarType
+    {
+        public Star(StarType star)
         {
             type = star.type;
             description = star.description;
@@ -82,11 +133,11 @@ public class World : MonoBehaviour
         public int temperature;
     }
 
-    public class PlanetObj : Planet
+    public class Planet : PlanetType
     {
-        PlanetObj() { }
+        Planet() { }
 
-        public PlanetObj(Planet planet)
+        public Planet(PlanetType planet)
         {
             type = planet.type;
             description = planet.description;
@@ -104,21 +155,46 @@ public class World : MonoBehaviour
         public float orbit;
         //moons
     }
-    
-    
+
+    public class Location
+    {
+        public Sys sys { get; private set; }
+        public SysObj sysObj { get; private set; }
+
+        public Location(Sys sysSet, SysObj sysObjSet)
+        {
+            sys = sysSet;
+            sysObj = sysObjSet;
+        }
+
+        public Location(Sys sysSet)
+        {
+            sys = sysSet;
+            sysObj = sysSet.GetSysObjs()[0];
+        }
+
+        public Location(SysObj sysObjSet)
+        {
+            sys = GetLocation().sys;
+            sysObj = sysObjSet;
+        }
+    }
 
     void Awake()
     {
         systems = new Sys[mapSize.x, mapSize.y];
         GenerateWorld();
+
+        var sys = GetSystem(0, 0);
+        SetLocation(new Location(sys, sys.GetSysObjs()[0]));
     }
 
     private void GenerateWorld()
     {
         string[,] systemNames = new string[mapSize.x, mapSize.y];
         float[,] systemSecs = new float[mapSize.x, mapSize.y];
-        StarObj[,] systemStars = new StarObj[mapSize.x, mapSize.y];
-        List<PlanetObj>[,] systemPlanets = new List<PlanetObj>[mapSize.x, mapSize.y]; //Array of lists.
+        Star[,] systemStars = new Star[mapSize.x, mapSize.y];
+        List<Planet>[,] systemPlanets = new List<Planet>[mapSize.x, mapSize.y]; //Array of lists.
         Vector2[,] systemCoords = new Vector2[mapSize.x, mapSize.y];
 
 
@@ -204,7 +280,7 @@ public class World : MonoBehaviour
             {
                 int randomId = UnityEngine.Random.Range(0, starsAll.Length - 1);
 
-                StarObj star = new StarObj(starsAll[randomId]);
+                Star star = new Star(starsAll[randomId]);
                 star.temperature = UnityEngine.Random.Range(star.minTemperature, star.maxTemperature);
 
                 star.name = systemNames[x, y];
@@ -218,21 +294,21 @@ public class World : MonoBehaviour
         #region Planets
         int planetsCount = UnityEngine.Random.Range(minPlanets, maxPlanets);
 
-        const float randMinOrbit = 0.2f; const float randMaxOrbit = 2f; //in AU
+        const float randMinOrbit = 0.2f; const float randMaxOrbit = 2f; //in PU
 
         float orbitSum = 0.5f;
         for (int x = 0; x <= mapSize.x - 1; x++)
         {
             for (int y = 0; y <= mapSize.y - 1; y++)
             {
-                List <PlanetObj> planetList = new List<PlanetObj>();
+                List <Planet> planetList = new List<Planet>();
                 List<float> orbits = new List<float>();
 
                 for (int i = 0; i <= planetsCount - 1; i++)
                 {
                     int randomId = UnityEngine.Random.Range(0, planetsAll.Length - 1);
 
-                    PlanetObj planet = new PlanetObj(planetsAll[randomId]);
+                    Planet planet = new Planet(planetsAll[randomId]);
                     orbitSum += UnityEngine.Random.Range(randMinOrbit, randMaxOrbit);
                     planet.orbit = orbitSum;
 
@@ -301,20 +377,15 @@ public class World : MonoBehaviour
         #endregion
     }
 
-    public static void SetSystem(Vector2Int id)
+    public static void SetLocation(Location location)
     {
-        if(id.x < mapSize.x && id.y < mapSize.y )
-        {
-            currSysId = id;
-        }
+        locationCurr = location;
     }
 
-    public static Sys GetSystem() //Get current.
+    public static Location GetLocation()
     {
-        return systems[currSysId.x, currSysId.y];
+        return locationCurr;
     }
-    
-   //public static 
 
     private static Vector2 GetSecPerlinSeed(float mapScale) //Gets a seed that generates high sec in the first systems.
     {
@@ -359,9 +430,14 @@ public class World : MonoBehaviour
         return perlinSeeds;
     }
 
-    public static Sys GetSystem(Vector2Int id) //Get by id.
+    public static Sys GetSystem(Vector2Int id)
     {
         return systems[id.x, id.y];
+    }
+    
+    public static Sys GetSystem(int x, int y)
+    {
+        return systems[x, y];
     }
 }
 

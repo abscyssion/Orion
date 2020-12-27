@@ -64,8 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Animations\Map\ShipEnd.cs" />
-    <Compile Include="Assets\Resources\ScriptableObjects\Planet.cs" />
-    <Compile Include="Assets\Resources\ScriptableObjects\Star.cs" />
+    <Compile Include="Assets\Resources\ScriptableObjects\PlanetType.cs" />
+    <Compile Include="Assets\Resources\ScriptableObjects\StarType.cs" />
     <Compile Include="Assets\Resources\Scripts\Console\TextHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Console\TypingSounds.cs" />
     <Compile Include="Assets\Resources\Scripts\CursorHandler.cs" />

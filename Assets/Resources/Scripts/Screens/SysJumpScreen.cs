@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static SysJumpHandler;
 
 public class SysJumpScreen : Screen
 {
     private Screen scr;
 
-    private SysJumpHandler sysJumpHandler;
+    public SysJumpHandler sysJumpHandler;
 
     public GameObject onScreen;
     public GameObject offScreen;
@@ -44,7 +45,6 @@ public class SysJumpScreen : Screen
         cursorRect = cursor.GetComponent<RectTransform>();
         cursorScript = cursor.GetComponent<CursorHandler>();
 
-        sysJumpHandler = GameObject.Find("Logic").GetComponent<SysJumpHandler>();
         buttonColDef = buttonBackground.color;
     }
 
@@ -84,17 +84,15 @@ public class SysJumpScreen : Screen
         offScreen.SetActive(!onScr);
     }
 
-
-
     public void RefreshScreen()
     {
-        SystemFlight flight = SysJumpHandler.currFlight;
-        World.Sys destSys = flight.destSys;
+        Flight flight = currFlight;
+        World.Sys destSys = flight.destLocation.sys;
 
         string systemString = destSys.name;
         systemText.SetText(systemString);
 
-        if (destSys.cellCoords == World.GetSystem().cellCoords)
+        if (destSys.cellCoords == World.GetLocation().sys.cellCoords)
         {
             infoSubScreen.SetActive(false);
             currVisSubScreen.SetActive(true);
@@ -158,7 +156,7 @@ public class SysJumpScreen : Screen
         }
         else if(sec < 0.5f && sec >= 0.25f)
         {
-            str = "Low Sec";
+            str = "(Low Sec)";
         }
         else if(sec < 0.25f)
         {

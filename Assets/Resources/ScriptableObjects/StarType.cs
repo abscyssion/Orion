@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Star")]
-public class Star : ScriptableObject
+public class StarType : ScriptableObject
 {
     public int id;
 

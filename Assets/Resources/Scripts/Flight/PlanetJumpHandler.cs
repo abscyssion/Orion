@@ -3,116 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static World;
-using static PlanetJumpHandler;
-using static Ship;
-
-public class PlanetFlight : Flight
-{
-    public PlanetFlight(SysObj destObj, float distance) : base(distance, planetJumpTopSpeed, planetJumpAcceleration, planetFuelEfficency) //Constructor
-    {
-        this.destObj = destObj;
-        this.possible = possible && destObj != GetSysObj(); //Check if the dest obj isn't the current one.
-    }
-
-    public SysObj destObj;
-}
 
 public class PlanetJumpHandler : MonoBehaviour
 {
-    public class SysObj
-    {
-        public string name; //Given name of the star, planet;
-        public string type;
-        public string description;
-
-        /*
-         * bool canMine;
-         * bool canGasExcavate;
-         * 
-         */
-
-        public float orbit;
-        public int id;
-
-        public SysObj(PlanetObj planet)
-        {
-            name = planet.name;
-            type = planet.type;
-            description = planet.description;
-            orbit = planet.orbit;
-            id = planet.id;
-        }
-
-        public SysObj(StarObj star)
-        {
-            name = star.name;
-            type = star.type;
-            description = star.description;
-            orbit = 0;
-            id = 0;
-        }
-    }
-
-    public static PlanetFlight currFlight;
-    private static List<SysObj> sysObjects;
-    private static int sysObjId;
-
-    public static PlanetFlight GenerateFlight(SysObj destObj)
-    {
-        float distance = Mathf.Abs(GetSysObj().orbit - destObj.orbit);
-        return new PlanetFlight(destObj, distance);
-    }
-
-    public static void SetFlight(PlanetFlight planetFlight)
-    {
-        currFlight = planetFlight;
-    }
+    public FlightHandler flightHandler;
+    public static Flight currFlight;
 
     private void Awake()
     {
-        sysObjId = 0;
-
-        ResetSysObjects();
+        SetFlight(new Flight(GetLocation()));
     }
 
-    public static void Jump()
+    public bool Jump()
     {
-
-    }
-
-    public static void ResetSysObjects()
-    {
-        sysObjects = new List<SysObj>();
-
-        Sys sys = GetSystem();
-
-        sysObjects.Add(new SysObj(sys.star));
-        foreach(PlanetObj planet in sys.planets)
+        if (currFlight.possible)
         {
-            sysObjects.Add(new SysObj(planet));
+            flightHandler.Warp(currFlight);
+
+            return true;
         }
+        else
+            return false;
     }
 
-    public static void SetSysObj(int id)
+    public static void SetFlight(Flight flight)
     {
-        if(id < sysObjects.Count)
-        {
-            sysObjId = id;
-        }
-    }
-
-    public static SysObj GetSysObj()
-    {
-        return sysObjects[sysObjId];
-    }
-
-    public static SysObj GetSysObj(int id)
-    {
-        return sysObjects[id];
-    }
-
-    public static List<SysObj> GetSysObjects()
-    {
-        return sysObjects;
+        currFlight = flight;
     }
 }

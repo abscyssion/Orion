@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Planet")]
-public class Planet : ScriptableObject
+public class PlanetType : ScriptableObject
 {
     public int id;
 
