@@ -18,7 +18,7 @@ MonoBehaviour:
     coolest kinds of stars in the main sequence. They reach temperatures between
     2000K and 2500K.
   maxTemperature: 2500
-  minTemperature: 2500
+  minTemperature: 2000
   sprite: {fileID: 21300000, guid: 9e8334cde0202ac49b86ba0d0206f9a0, type: 3}
   visSize: 90
   visColor: {r: 0.754717, g: 0.16731933, b: 0.16731933, a: 1}

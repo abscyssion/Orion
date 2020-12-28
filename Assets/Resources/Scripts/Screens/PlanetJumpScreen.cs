@@ -122,9 +122,9 @@ public class PlanetJumpScreen : Screen
 
     public void RefreshScreen(Location loc)
     {
-        for (int j = 0; j < parentObj.transform.childCount; j++) //Destroy all children.
+        foreach(Transform child in parentObj.transform)
         {
-            Destroy(parentObj.transform.GetChild(j).gameObject);
+            Destroy(child.gameObject);
         }
 
         const float paddingPerc = 0.05f;

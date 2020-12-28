@@ -17,7 +17,7 @@ MonoBehaviour:
   description: L-type stars, also reffered to as brown dwarfs, are small, very dark
     red in color stars. They reach temperatures between only 500K and 700K.
   maxTemperature: 700
-  minTemperature: 700
+  minTemperature: 500
   sprite: {fileID: 21300000, guid: d7670d35864487544ae89479540f7f92, type: 3}
   visSize: 90
   visColor: {r: 0.5566038, g: 0.15251301, b: 0, a: 1}

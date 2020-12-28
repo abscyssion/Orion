@@ -68,7 +68,7 @@ public class StarVisScreen : Screen
 
         foreach (Transform child in systemParent)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
     public void DrawVisualisations(World.Sys sys)
@@ -237,6 +237,8 @@ public class StarVisScreen : Screen
         Image orbImg = orbObj.AddComponent<Image>();
         orbImg.sprite = orbitSprite;
         orbImg.color = orbColor;
+
+        imagesAll.Add(orbImg);
     }
 
 
@@ -244,6 +246,9 @@ public class StarVisScreen : Screen
     {
         onScreen.SetActive(onScr);
         offScreen.SetActive(!onScr);
+
+        if(onScr)
+            StartCoroutine(FadeInVis());
     }
 
     private IEnumerator FadeInVis()

@@ -283,6 +283,8 @@ public class World : MonoBehaviour
                 Star star = new Star(starsAll[randomId]);
                 star.temperature = UnityEngine.Random.Range(star.minTemperature, star.maxTemperature);
 
+                print(star.type + ": " + star.minTemperature + "-" + star.maxTemperature + ".");
+
                 star.name = systemNames[x, y];
 
                 systemStars[x, y] = star;
