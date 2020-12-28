@@ -153,7 +153,7 @@ public class MapScreen : Screen
 
     private void LockSystem(Vector2Int cursorCell, Vector2 cursorPos)
     {
-        if (!Flight.jumping)
+        if (!FlightHandler.jumping)
         {
             Sys destSys = GetSystem(cursorCell);
 

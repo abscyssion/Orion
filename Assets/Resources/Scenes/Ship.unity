@@ -2727,7 +2727,7 @@ MeshCollider:
   m_GameObject: {fileID: 310189870}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -4069,7 +4069,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flightHandler: {fileID: 444875760}
-  jumpScreen: {fileID: 1000886084}
+  sysJumpScreen: {fileID: 1000886084}
+  planetJumpScreen: {fileID: 1975203353}
   shipCursor: {fileID: 2033274784}
   shipAnim: {fileID: 2033274785}
   shipSpinImage: {fileID: 41386138}
@@ -14743,7 +14744,7 @@ MeshCollider:
   m_GameObject: {fileID: 1654860867}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -23547,7 +23548,7 @@ MeshCollider:
   m_GameObject: {fileID: 2100001269}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

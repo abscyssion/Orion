@@ -6,13 +6,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static World;
-using static FlightHandler;
 
 public class SysJumpHandler : MonoBehaviour
 {
     public FlightHandler flightHandler;
 
-    public SysJumpScreen jumpScreen;
+    public SysJumpScreen sysJumpScreen;
+    public PlanetJumpScreen planetJumpScreen;
 
     public RectTransform shipCursor;
     public Animator shipAnim;
@@ -32,8 +32,9 @@ public class SysJumpHandler : MonoBehaviour
     {
         if (currFlight.possible)
         {
-            flightHandler.Warp(currFlight);
             starScanScreen.ResetScanner();
+            planetJumpScreen.RefreshScreen(currFlight.destLocation);
+            flightHandler.Jump(currFlight);
             return true;
         }
         else

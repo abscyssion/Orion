@@ -50,7 +50,7 @@ public class PlanetJumpScreen : Screen
 
         buttonColDef = buttonBackground.color;
 
-        DrawBars();
+        RefreshScreen(GetLocation());
     }
 
     
@@ -120,14 +120,19 @@ public class PlanetJumpScreen : Screen
         offScreen.SetActive(!onScr);
     }
 
-    private void DrawBars()
+    public void RefreshScreen(Location loc)
     {
+        for (int j = 0; j < parentObj.transform.childCount; j++) //Destroy all children.
+        {
+            Destroy(parentObj.transform.GetChild(j).gameObject);
+        }
+
         const float paddingPerc = 0.05f;
 
         Vector2 parentDiam = virtParentRect.sizeDelta;// new Vector2(450, 365);
         Vector2 parentPos = virtParentRect.anchoredPosition;// new Vector2(25, 110);
 
-        List<SysObj> sysObjs = GetLocation().sys.GetSysObjs();
+        List<SysObj> sysObjs = loc.sys.GetSysObjs();
 
         float spacePerObj = parentDiam.y / sysObjs.Count;
         float padding = spacePerObj * paddingPerc;

@@ -18,7 +18,7 @@ public class PlanetJumpHandler : MonoBehaviour
     {
         if (currFlight.possible)
         {
-            flightHandler.Warp(currFlight);
+            flightHandler.Jump(currFlight);
 
             return true;
         }

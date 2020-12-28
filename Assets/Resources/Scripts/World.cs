@@ -350,8 +350,6 @@ public class World : MonoBehaviour
                     y = Mathf.Clamp(UnityEngine.Random.Range(-(virtCellSize.y / 2f), (virtCellSize.y / 2f)), -margin.y, margin.y)
                 };
 
-                print(x + ", " + y + ": " + systemCoord);
-
                 systemCoords[x, y] = systemCoord;
             }
         }

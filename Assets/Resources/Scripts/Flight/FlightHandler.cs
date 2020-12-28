@@ -5,8 +5,6 @@ using static World;
 
 public class Flight
 {
-    public static bool jumping = false;
-
     public Flight(Location loc)
     {
         destLocation = loc;
@@ -86,7 +84,7 @@ public class FlightHandler : MonoBehaviour
     private float maxParticleSpeed;
     private float minParticleSpeed = 0;
 
-    FlightHandler flightHandler;
+    public static bool jumping = false;
 
     private void Awake()
     {
@@ -111,7 +109,7 @@ public class FlightHandler : MonoBehaviour
         SetBotText(GetLocation());
     }
 
-    public void Warp(Flight flight)
+    public void Jump(Flight flight)
     {
         /* 
          * The philosophy of jumping:
@@ -123,12 +121,13 @@ public class FlightHandler : MonoBehaviour
 
         if (flight != null)
         {
-            if (flight.possible)
+            if (flight.possible && !jumping)
             {
                 Ship.ChangeFuel(-flight.fuel);
                 Screen.ChangeScreensAll(false);
+                SetLocation(flight.destLocation);
 
-                StartCoroutine(Warping(flight));
+                StartCoroutine(Jumping(flight));
 
                 SetTopText("NOW DEPARTING:");
                 SetBotText(flight.destLocation);
@@ -136,9 +135,9 @@ public class FlightHandler : MonoBehaviour
         }
     }
 
-    private IEnumerator Warping(Flight flight)
+    private IEnumerator Jumping(Flight flight)
     {
-        Flight.jumping = true;
+        jumping = true;
 
         warpParticles.gameObject.SetActive(true);
 
@@ -178,8 +177,6 @@ public class FlightHandler : MonoBehaviour
 
             jumpVelPerc = jumpVelCurr / Ship.jumpTopSpeed;
 
-
-
             SetMuzzleLength(jumpVelPerc);
             SetWarpParticles(jumpVelPerc);
 
@@ -191,24 +188,17 @@ public class FlightHandler : MonoBehaviour
 
         warpParticles.gameObject.SetActive(false);
 
-        Flight.jumping = false;
+        jumping = false;
 
         Screen.ChangeScreensAll(true);
         //jumpScreen.RefreshScreen();
 
         SetTopText("DEST. REACHED:");
 
-
         yield return new WaitForSeconds(5.0f);
 
         SetTopText("NOW VISITING:");
     }
-/*
-    public void SetFlight(Flight flight)
-    {
-        currFlight = flight;
-    }
-*/
     #region Visuals
     protected static void SetTopText(string str)
     {
