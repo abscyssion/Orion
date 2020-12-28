@@ -14,7 +14,7 @@ public class World : MonoBehaviour
 
     public static Vector2Int mapSize = new Vector2Int(10, 10);
 
-    public static Vector2Int cellSize = new Vector2Int(10, 10);
+    public static Vector2Int virtCellSize = new Vector2Int(10, 10);
     private const float marginPrc = 0.3f;
 
     private const int minPlanets = 2;
@@ -55,7 +55,7 @@ public class World : MonoBehaviour
 
         public Vector2 GlobalPos()
         {
-            Vector2 globalPos = (cellCoords * cellSize) + localCoords;
+            Vector2 globalPos = (cellCoords * virtCellSize) + localCoords;
             return globalPos;
         }
 
@@ -332,12 +332,12 @@ public class World : MonoBehaviour
 
         //Place the systems on a map.
         #region Coords
-        const float marginPrc = 0.3f;
+        const float marginPrc = 0.1f;
 
         Vector2 margin = new Vector2
         {
-            x = cellSize.x / 2 - (cellSize.x / 2 * marginPrc),
-            y = cellSize.y / 2 - (cellSize.y / 2 * marginPrc)
+            x = virtCellSize.x / 2 - (virtCellSize.x / 2 * marginPrc),
+            y = virtCellSize.y / 2 - (virtCellSize.y / 2 * marginPrc)
         };
 
         for (int x = 0; x <= mapSize.x - 1; x++)
@@ -346,9 +346,11 @@ public class World : MonoBehaviour
             {
                 Vector2 systemCoord = new Vector2
                 {
-                    x = Mathf.Clamp(UnityEngine.Random.Range(-(cellSize.x / 2f), (cellSize.x / 2f)), -margin.x, margin.x),
-                    y = Mathf.Clamp(UnityEngine.Random.Range(-(cellSize.y / 2f), (cellSize.y / 2f)), -margin.y, margin.y)
+                    x = Mathf.Clamp(UnityEngine.Random.Range(-(virtCellSize.x / 2f), (virtCellSize.x / 2f)), -margin.x, margin.x),
+                    y = Mathf.Clamp(UnityEngine.Random.Range(-(virtCellSize.y / 2f), (virtCellSize.y / 2f)), -margin.y, margin.y)
                 };
+
+                print(x + ", " + y + ": " + systemCoord);
 
                 systemCoords[x, y] = systemCoord;
             }

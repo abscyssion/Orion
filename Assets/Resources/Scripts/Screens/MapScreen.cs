@@ -241,8 +241,8 @@ public class MapScreen : Screen
 
         Vector2 cellMultiplier = new Vector2
         {
-            x = cellSize.x / cellSize.x,
-            y = cellSize.y / cellSize.y
+            x = cellSize.x / virtCellSize.x,
+            y = cellSize.y / virtCellSize.y
         };
 
         Vector2 starPos = new Vector2
