@@ -103,7 +103,7 @@ public class SysJumpScreen : Screen
             currVisSubScreen.SetActive(false);
 
 
-            string distString = flight.details.distance + " light years.";
+            string distString = flight.details.distanceSU + " system units.";
             distText.SetText(distString);
 
             string timeString = flight.details.time + " total.";

@@ -50,7 +50,8 @@ public class Flight
     {
         public FlightDetails(float distanceF, float timeF, float fuelF)
         {
-            distance = Mathf.Round(distanceF).ToString();
+            distanceSU = Mathf.Round(distanceF).ToString();
+            distancePU = Mathf.Round(Ship.ConvertDist(distanceF,"pu")).ToString();
 
             int minutes = (int)timeF / 60;
             int seconds = (int)timeF % 60;
@@ -62,7 +63,8 @@ public class Flight
             fuel = Mathf.Round(fuelF).ToString();
         }
 
-        public string distance { get; private set; }
+        public string distanceSU { get; private set; } //in SU. PU = 1/20 SU
+        public string distancePU { get; private set; }
         public string time { get; private set; }
         public string fuel { get; private set; }
     }

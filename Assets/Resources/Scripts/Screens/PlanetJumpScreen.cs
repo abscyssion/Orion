@@ -241,7 +241,7 @@ public class PlanetJumpScreen : Screen
 
             string botString;
             if (flight.distance > 0)
-                botString = flight.details.distance + " PU from you, " + flight.details.fuel + " fuel.";
+                botString = flight.details.distancePU + " PU from you, " + flight.details.fuel + " fuel.";
             else
                 botString = "<u>You are here.</u>";
 
