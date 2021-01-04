@@ -4088,7 +4088,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warpParticles: {fileID: 1668390674}
   maxParticleSpeed: 400
+  skybox: {fileID: 2100000, guid: 8cd8256ee96730b4ea1d1976a1304cf4, type: 2}
   sysJumpScreen: {fileID: 1000886084}
+  planetJumpScreen: {fileID: 1975203353}
 --- !u!1 &445861969
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,8 +4441,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 452122673}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -2.51, y: 5.09, z: -25.46}
+  m_LocalRotation: {x: -0, y: -0.02682194, z: -0, w: -0.9996402}
+  m_LocalPosition: {x: -2.51, y: 5.09, z: -4.51}
   m_LocalScale: {x: 1, y: 4.8149047, z: 1}
   m_Children:
   - {fileID: 1082542843}
@@ -4448,7 +4450,7 @@ Transform:
   - {fileID: 842178438}
   m_Father: {fileID: 688357257}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 363.074, z: 0}
 --- !u!1 &475781105
 GameObject:
   m_ObjectHideFlags: 0
@@ -15362,10 +15364,10 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.9774174, b: 0.3803922, a: 1}
+      maxColor: {r: 0.3803922, g: 0.8637615, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0, b: 0, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -15424,7 +15426,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.25
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -15800,10 +15802,10 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 12
+    angle: 6
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 2.634191
     m_Position: {x: 0, y: 0, z: -29.018955}
     m_Rotation: {x: -0, y: 0, z: 0}
@@ -15886,7 +15888,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 15
+      value: 2
       mode: 0
       spread: 0
       speed:
@@ -16005,7 +16007,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 300
+      scalar: 120
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -18302,7 +18304,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -18628,7 +18630,7 @@ ParticleSystem:
     separateAxes: 0
     range: {x: 0, y: 1}
   ColorBySpeedModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -19838,7 +19840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1668390672}
   m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 8.17, z: 79.3}
+  m_LocalPosition: {x: 0, y: 6.5, z: 176.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 688357257}

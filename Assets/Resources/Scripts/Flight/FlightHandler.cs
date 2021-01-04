@@ -84,12 +84,21 @@ public class FlightHandler : MonoBehaviour
     public ParticleSystem warpParticles;
     [SerializeField]
     private float maxParticleSpeed;
-    private float minParticleSpeed = 0;
+    private readonly float minParticleSpeed = 0;
+
+    public Material skybox;
+    private Color defSkyboxColor;
+    private readonly Color maxSkyboxColor = new Color(0.15f, 0.15f, 0.15f);
 
     public SysJumpScreen sysJumpScreen;
     public PlanetJumpScreen planetJumpScreen;
 
     public static bool jumping = false;
+
+    private void OnApplicationQuit()
+    {
+        skybox.SetColor("_Tint", defSkyboxColor);
+    }
 
     private void Awake()
     {
@@ -109,6 +118,8 @@ public class FlightHandler : MonoBehaviour
         }
 
         warpParticles.gameObject.SetActive(false);
+
+        defSkyboxColor = skybox.GetColor("_Tint");
 
         SetTopText("NOW VISITING:");
         SetBotText(GetLocation());
@@ -184,6 +195,7 @@ public class FlightHandler : MonoBehaviour
 
             SetMuzzleLength(jumpVelPerc);
             SetWarpParticles(jumpVelPerc);
+            SetSkyboxColor(jumpVelPerc);
 
             jumpTimeLeft -= delay;
             jumpTime += delay;
@@ -206,6 +218,7 @@ public class FlightHandler : MonoBehaviour
 
         SetTopText("NOW VISITING:");
     }
+
     #region Visuals
     protected static void SetTopText(string str)
     {
@@ -239,6 +252,13 @@ public class FlightHandler : MonoBehaviour
 
         var particlesMain = warpParticles.main;
         particlesMain.startSpeed = speed;
+    }
+
+    private void SetSkyboxColor(float percent)
+    {
+        const float mul = 1.55f;
+        Color color = Color.Lerp(defSkyboxColor, maxSkyboxColor, percent * mul);
+        skybox.SetColor("_Tint", color);
     }
 
     private static string FormatTime(float time)
