@@ -4088,6 +4088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warpParticles: {fileID: 1668390674}
   maxParticleSpeed: 400
+  sysJumpScreen: {fileID: 1000886084}
 --- !u!1 &445861969
 GameObject:
   m_ObjectHideFlags: 0

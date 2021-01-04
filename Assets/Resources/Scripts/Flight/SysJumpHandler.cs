@@ -33,7 +33,6 @@ public class SysJumpHandler : MonoBehaviour
         if (currFlight.possible)
         {
             starScanScreen.ResetScanner();
-            planetJumpScreen.RefreshScreen(currFlight.destLocation);
             flightHandler.Jump(currFlight);
             return true;
         }

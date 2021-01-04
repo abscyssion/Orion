@@ -27,7 +27,7 @@ public class Flight
 
         fuel = Ship.fuelEfficency * distance;
 
-        if (fuel <= Ship.fuel)
+        if (distance > 0 && fuel <= Ship.fuel)
             possible = true;
         else
             possible = false;
@@ -83,6 +83,9 @@ public class FlightHandler : MonoBehaviour
     [SerializeField]
     private float maxParticleSpeed;
     private float minParticleSpeed = 0;
+
+    public SysJumpScreen sysJumpScreen;
+    public PlanetJumpScreen planetJumpScreen;
 
     public static bool jumping = false;
 
@@ -191,7 +194,9 @@ public class FlightHandler : MonoBehaviour
         jumping = false;
 
         Screen.ChangeScreensAll(true);
-        //jumpScreen.RefreshScreen();
+        
+        planetJumpScreen.RefreshScreen();
+        
 
         SetTopText("DEST. REACHED:");
 

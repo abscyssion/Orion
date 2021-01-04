@@ -41,6 +41,8 @@ public class PlanetJumpScreen : Screen
     private List<RectTransform> outlineRects;
     private List<Image> outlineImages;
 
+    private List<TextMeshProUGUI> botTexts;
+
     private void Awake()
     {
         scr = gameObject.AddComponent<Screen>();
@@ -50,7 +52,8 @@ public class PlanetJumpScreen : Screen
 
         buttonColDef = buttonBackground.color;
 
-        RefreshScreen(GetLocation());
+        RefreshScreen();
+        RefreshTexts();
     }
 
     
@@ -120,8 +123,10 @@ public class PlanetJumpScreen : Screen
         offScreen.SetActive(!onScr);
     }
 
-    public void RefreshScreen(Location loc)
+    public void RefreshScreen()
     {
+        Location loc = GetLocation();
+
         foreach(Transform child in parentObj.transform)
         {
             Destroy(child.gameObject);
@@ -139,6 +144,7 @@ public class PlanetJumpScreen : Screen
 
         outlineRects = new List<RectTransform>();
         outlineImages = new List<Image>();
+        botTexts = new List<TextMeshProUGUI>();
 
         int i = 0;
         foreach(SysObj sysObj in sysObjs)
@@ -198,13 +204,6 @@ public class PlanetJumpScreen : Screen
             #endregion
 
             #region Bottom text
-            Flight flight = new Flight(new Location(sysObj));
-            string botString;
-            if (flight.distance > 0)
-                botString = flight.details.distance + " PU from you, " + flight.details.fuel + " fuel.";
-            else
-                botString = "<u>You are here.</u>";
-
             const float botFontPerc = 0.5f;
             GameObject botObj = new GameObject("Bot");
             botObj.transform.SetParent(obj.transform);
@@ -221,7 +220,8 @@ public class PlanetJumpScreen : Screen
             botText.overflowMode = TextOverflowModes.Ellipsis;
             botText.font = font;
             botText.fontSize = botRect.sizeDelta.y * botFontPerc;
-            botText.text = botString;
+
+            botTexts.Add(botText);
 
             Screen.RefreshRectOffset(botRect);
             botRect.sizeDelta = textSize;
@@ -229,6 +229,23 @@ public class PlanetJumpScreen : Screen
             #endregion
 
             i++;
+        }
+    }
+
+    public void RefreshTexts()
+    {
+        List<SysObj> sysObjs = GetLocation().sys.GetSysObjs();
+        for (int i = 0; i < sysObjs.Count; i++)
+        {
+            Flight flight = new Flight(new Location(sysObjs[i]));
+
+            string botString;
+            if (flight.distance > 0)
+                botString = flight.details.distance + " PU from you, " + flight.details.fuel + " fuel.";
+            else
+                botString = "<u>You are here.</u>";
+
+            botTexts[i].text = botString;
         }
     }
 }
